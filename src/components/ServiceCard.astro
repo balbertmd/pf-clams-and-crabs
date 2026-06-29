@@ -1,0 +1,16 @@
+---
+import { ICON_PATHS } from '../data/icons';
+import type { CollectionEntry } from 'astro:content';
+interface Props { entry: CollectionEntry<'services'>; }
+const { entry } = Astro.props;
+const s = entry.data;
+const path = (ICON_PATHS as Record<string, string>)[s.icon];
+---
+<a class="cat-card" href={`/services/${entry.id}`}>
+  {path && (
+    <span class="cat-ico"><svg class="svg-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={path} /></svg></span>
+  )}
+  <h3>{s.title}</h3>
+  <ul>{s.bullets.map((b) => (<li>{b}</li>))}</ul>
+  <span class="cat-cta">View details →</span>
+</a>

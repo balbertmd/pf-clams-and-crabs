@@ -1,0 +1,165 @@
+---
+import Base from '../layouts/Base.astro';
+import { getSite } from '../lib/site';
+
+const site = await getSite();
+const tel = "tel:" + site.phoneHref;
+const sms = "sms:" + site.phoneHref;
+
+const mapsDir = "https://www.google.com/maps/dir/?api=1&destination=1044%20W%20Rio%20Grande%20Ave%2C%20Wildwood%2C%20NJ%2008260";
+const mapEmbed = "https://maps.google.com/maps?q=1044%20W%20Rio%20Grande%20Ave%2C%20Wildwood%2C%20NJ%2008260&z=15&output=embed";
+const origin = Astro.site?.href ?? 'https://pfclamsandcrabs.com/';
+
+const bizLd = {
+  "@context": "https://schema.org", "@type": "LocalBusiness", "name": "PF Clams and Crabs",
+  "image": origin + "images/logo.png", "telephone": "+16093053836", "email": site.email, "url": origin, "priceRange": "$$",
+  "address": { "@type": "PostalAddress", "streetAddress": "1044 W Rio Grande Ave", "addressLocality": "Wildwood", "addressRegion": "NJ", "postalCode": "08260", "addressCountry": "US" },
+  "geo": { "@type": "GeoCoordinates", "latitude": 38.9945679, "longitude": -74.8431244 },
+  "areaServed": ["Wildwood, NJ", "Cape May County, NJ", "South Jersey Shore"]
+};
+const faqs = [
+  ["Are the clams and crab really local?", "Yes — Paul farms the hard clams right in Cape May County waters and catches the blue crab himself. It goes straight from the dock to you, with no dealer in between."],
+  ["How do I buy?", "Call or text Paul at (609) 305-3836 to reserve what you want, then pick it up at the dock — 1044 W Rio Grande Ave, Wildwood. Pay cash or card at pickup."],
+  ["What do prices run?", "Prices and pack sizes change with the season and the catch, so call or text for today's availability and pricing. Paul will set you up."],
+  ["Is the crab sold live?", "Yes — Jersey blue crab is sold live, by the dozen, half-bushel, or bushel, while the season's running."],
+  ["Do you ship or deliver?", "Not this season — local dock pickup only for now."],
+  ["When are the crabs running?", "Through the summer, when they're biting. Call ahead — when the crabs are in, they go fast."]
+];
+const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faqs.map(([q, a]) => ({ "@type": "Question", "name": q, "acceptedAnswer": { "@type": "Answer", "text": a } })) };
+---
+<Base
+  title="PF Clams and Crabs — Fresh Cape May Clams & Live Jersey Blue Crab | Wildwood, NJ"
+  description="Farm-raised Cape May County hard clams and hand-caught live Jersey blue crab, sold straight from the dock in Wildwood, NJ. Call or text Paul to reserve — no middleman."
+  structuredData={[bizLd, faqLd]}
+  skipTarget="#catch"
+>
+
+  <section class="hero" id="top">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <span class="eyebrow">Wildwood, New Jersey</span>
+        <h1>Fresh off the dock. No middleman.</h1>
+        <p class="hero-sub">Farm-raised Cape May clams and live Jersey blue crab — grown and caught by Paul himself, sold straight to you off the Wildwood dock.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href={tel}>📞 Call {site.phone}</a>
+          <a class="btn btn-ghost" href={sms}>💬 Text to reserve</a>
+        </div>
+        <p class="hero-note">Dock pickup · Cash or card · Call for today's catch &amp; price</p>
+      </div>
+      <div class="hero-media">
+        <img src="/images/logo.png" alt="PF Clams and Crabs logo" width="440" height="440"
+             style="width:auto;max-height:420px;margin:0 auto;border-radius:50%;box-shadow:0 18px 50px rgba(0,0,0,.45);" decoding="async" />
+      </div>
+    </div>
+  </section>
+
+  <div class="trustbar">
+    <div class="container">
+      <ul>
+        <li><span class="check">✓</span> Farm-raised Cape May clams</li>
+        <li><span class="check">✓</span> Live Jersey blue crab</li>
+        <li><span class="check">✓</span> Straight from the dock</li>
+        <li><span class="check">✓</span> 20 years on the water</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="section section-light" id="catch">
+    <div class="container">
+      <span class="eyebrow">Off the dock</span>
+      <h2>What we've got</h2>
+      <p class="section-lead">Grown and caught in Cape May County waters and pulled fresh. What's in changes with the season and the tides.</p>
+      <div class="cat-grid" style="grid-template-columns:repeat(2,1fr);">
+        <div class="cat-card" style="cursor:default;">
+          <span class="cat-ico"><i class="fa-solid fa-water" aria-hidden="true"></i></span>
+          <h3>Hard Clams</h3>
+          <p style="color:var(--text-body);margin:.2em 0 .4em;">Farm-raised right here in our home waters — clean, briny, and grit-free.</p>
+          <ul class="handles-list">
+            <li>Littlenecks for the raw bar</li>
+            <li>Topnecks for the pot</li>
+            <li>Available year-round</li>
+            <li>By the dozen, half-bushel, or bushel</li>
+          </ul>
+        </div>
+        <div class="cat-card" style="cursor:default;">
+          <span class="cat-ico"><i class="fa-solid fa-fish-fins" aria-hidden="true"></i></span>
+          <h3>Live Blue Crab</h3>
+          <p style="color:var(--text-body);margin:.2em 0 .4em;">Jersey blue crab Paul runs his own pots for — sold live, while the season's running.</p>
+          <ul class="handles-list">
+            <li>Sold live — hes or shes</li>
+            <li>Dozen, half-bushel, or bushel</li>
+            <li>Summer season, subject to availability</li>
+            <li>Reserve ahead for a cookout or a crowd</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:26px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:20px 24px;">
+        <strong style="color:var(--text);">Prices and what's in change with the tides.</strong>
+        <span style="color:var(--text-body);"> Call or text Paul for today's catch and pricing — <a href={tel} style="color:var(--link);font-weight:700;">{site.phone}</a>. Reserving for a cookout? Give him a few days' notice.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="container welcome">
+      <div class="welcome-media">
+        <div style="aspect-ratio:4/3;border-radius:var(--radius);background:linear-gradient(160deg,#12615f,#08322f);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.62);font-style:italic;text-align:center;padding:18px;border:1px solid var(--border);">[ photo of Paul on the dock — coming soon ]</div>
+      </div>
+      <div class="welcome-text">
+        <span class="eyebrow">The man on the dock</span>
+        <blockquote>“Twenty years on these waters. Up to now it all went to dealers — this year I'm selling straight to you. Same clams, same crab, just fresher, and without the middleman taking the cut.”</blockquote>
+        <cite>— Paul, PF Clams and Crabs</cite>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-light" id="hours">
+    <div class="container">
+      <span class="eyebrow">Find the dock</span>
+      <h2>Hours &amp; Pickup</h2>
+      <div class="hl-grid">
+        <div class="hours-card">
+          <h3>Hours</h3>
+          <table class="hours-table"><tbody>{site.hours.map((h) => (<tr><td>{h.day}</td><td>{h.time}</td></tr>))}</tbody></table>
+          <p style="color:var(--text-muted);font-size:.9rem;margin-top:14px;">Seasonal — Paul sets hours by the day. Call ahead before you come.</p>
+        </div>
+        <div class="location-info">
+          <p class="address"><strong>{site.name}</strong><br /><span>{site.address}</span></p>
+          <p><strong>Phone:</strong> <a href={tel}>{site.phone}</a><br /><strong>Email:</strong> <a href={"mailto:" + site.email}>{site.email}</a></p>
+          <a class="btn btn-primary" href={mapsDir} target="_blank" rel="noopener">Get Directions</a>
+          <div class="location-map" style="margin-top:18px;"><iframe title="Map to PF Clams and Crabs" loading="lazy" allowfullscreen src={mapEmbed}></iframe></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container">
+      <h2>Crabs running? Reserve a bushel.</h2>
+      <p>Call or text Paul for today's catch — dock pickup in Wildwood.</p>
+      <a class="btn btn-primary" href={tel}>📞 {site.phone}</a>
+    </div>
+  </section>
+
+  <section class="section section-light" id="faq">
+    <div class="container faq-wrap">
+      <span class="eyebrow">Questions</span>
+      <h2>Frequently Asked</h2>
+      {faqs.map(([q, a]) => (<details class="faq"><summary>{q}</summary><p>{a}</p></details>))}
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container contact-inner" style="text-align:center;">
+      <span class="eyebrow">Get in touch</span>
+      <h2>Reserve your clams &amp; crab</h2>
+      <p class="section-lead" style="margin-left:auto;margin-right:auto;">Call or text Paul with what you want and when — he'll set you up for dock pickup.</p>
+      <div class="hero-cta" style="justify-content:center;">
+        <a class="btn btn-primary" href={tel}>📞 Call {site.phone}</a>
+        <a class="btn btn-ghost" href={sms}>💬 Text to reserve</a>
+      </div>
+      <p class="form-note" style="margin-top:14px;">Or email <a href={"mailto:" + site.email}>{site.email}</a></p>
+    </div>
+  </section>
+
+</Base>

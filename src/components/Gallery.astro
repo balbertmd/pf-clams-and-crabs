@@ -1,0 +1,17 @@
+---
+interface GalleryItem { file: string | null; caption: string; }
+interface Props { items: GalleryItem[]; }
+const { items } = Astro.props;
+// Accept old paths ("images/gallery/x.jpg") and new uploader paths ("/images/gallery/x.jpg" or full URLs).
+const norm = (f: string) => /^(https?:|\/)/.test(f) ? f : '/' + f;
+const shown = (items || []).filter((g) => g && g.file).map((g) => ({ file: norm(g.file as string), caption: g.caption || '' }));
+const dataItems = JSON.stringify(shown);
+---
+<div class="gallery-grid" data-gallery data-base="" data-items={dataItems}>
+  {shown.map((g, i) => (
+    <button class="gallery-item" data-i={i}>
+      <img src={g.file} alt={g.caption} loading="lazy" onerror="this.closest('.gallery-item').classList.add('is-empty');this.remove();" />
+      <span class="gallery-empty-label">Add photo<br /><small>{g.file}</small></span>
+    </button>
+  ))}
+</div>

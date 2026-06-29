@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getSite } from '../lib/site';
+import { shadeHex } from '../lib/theme';
+import { SITE } from '../lib/config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  bodyClass?: string;
+  skipTarget?: string;
+  structuredData?: object | object[];
+}
+const {
+  title = "PF Clams and Crabs — Fresh Cape May Clams & Live Jersey Blue Crab",
+  description = "Farm-raised Cape May County hard clams and hand-caught live Jersey blue crab, straight from the dock in Wildwood, NJ. Call or text Paul to reserve — no middleman.",
+  canonical: canonicalProp,
+  ogTitle, ogDescription, bodyClass, skipTarget = "#services", structuredData,
+} = Astro.props;
+
+// Origin comes from astro.config `site` — swap that one value when the real domain is live.
+const origin = Astro.site ?? new URL('https://pfclamsandcrabs.com');
+const canonical = canonicalProp ?? new URL(Astro.url.pathname, origin).href;
+
+const site = await getSite();
+// Only allow a clean hex into the inline <style>, so a bad CMS value can't break out of the tag.
+const accent = SITE.accent;
+const accentVars = `:root{--accent:${accent};--accent-bright:${shadeHex(accent,14)};--accent-dark:${shadeHex(accent,-16)};--link:${shadeHex(accent,-22)};}`;
+const ogImg = new URL('/images/logo.png', origin).href;
+const ld = structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [];
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="icon" type="image/png" href="/images/logo.png" />
+  <link rel="apple-touch-icon" href="/images/logo.png" />
+  <meta name="theme-color" content="#081e26" />
+  <link rel="canonical" href={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={ogTitle ?? title} />
+  <meta property="og:description" content={ogDescription ?? description} />
+  <meta property="og:image" content={ogImg} />
+  <meta property="og:url" content={canonical} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={ogTitle ?? title} />
+  <meta name="twitter:image" content={ogImg} />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://api.open-meteo.com" />
+  <link rel="preload" as="image" href="/images/logo.png" />
+  <style set:html={accentVars}></style>
+  <script is:inline>
+    (function(){ var t="dark"; try{ t=localStorage.getItem("theme")||"dark"; }catch(e){} document.documentElement.setAttribute("data-theme", t); })();
+  </script>
+  {ld.map((obj) => (<script type="application/ld+json" set:html={JSON.stringify(obj).replace(/</g, '\\u003c')} />))}
+</head>
+<body class={bodyClass}>
+  <a class="skip-link" href={skipTarget}>Skip to content</a>
+  <Header />
+  <slot />
+  <Footer />
+  <script>
+    import '../scripts/ui.ts';
+    import '../scripts/header-sky.ts';
+  </script>
+</body>
+</html>

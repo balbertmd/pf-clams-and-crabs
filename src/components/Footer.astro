@@ -1,0 +1,45 @@
+---
+import { getSite } from '../lib/site';
+import { SHOW_QUOTES } from '../lib/config';
+import SocialIcon from './SocialIcon.astro';
+const site = await getSite();
+const links = site.socials.filter((s) => s.show);
+const tel = "tel:" + site.phoneHref;
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>{site.name}</h4>
+        <p>{site.address}<br /><a href={tel}>{site.phone}</a></p>
+        <h4 style="margin-top:22px;">Follow Us</h4>
+        <div class="socials">
+          {links.map((s) => (
+            <a class="social-link" data-brand={s.brand} href={s.url} target="_blank" rel="noopener" aria-label={s.name}>
+              <SocialIcon brand={s.brand} icon={s.icon} /><span class="social-name">{s.name}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+      <div>
+        <h4>Off the Dock</h4>
+        <ul class="footer-links">
+          <li><a href="/#catch">Hard Clams</a></li>
+          <li><a href="/#catch">Live Blue Crab</a></li>
+          <li><a href={tel}>Today's Catch &amp; Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <ul class="footer-links">
+          <li><a href="/#about">Meet Paul</a></li>
+          <li><a href="/#hours">Hours &amp; Pickup</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; {year} {site.name} · All rights reserved.</div>
+  </div>
+</footer>

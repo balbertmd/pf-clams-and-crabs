@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { getSite } from '../lib/site';
+const site = await getSite();
+const tel = "tel:" + site.phoneHref;
+---
+<Base title="Page Not Found — Nick's Repair Shop" skipTarget="#main">
+  <section class="section" id="main">
+    <div class="container" style="text-align:center;">
+      <span class="eyebrow">404</span>
+      <h1>Page not found</h1>
+      <p class="section-lead" style="margin:0 auto 1.6em;">Sorry, that page doesn't exist. Let's get you back on the road.</p>
+      <p>
+        <a class="btn btn-primary" href="/">Back to Home</a>
+        <a class="btn btn-ghost" style="margin-left:8px;" href={tel}>&#128222; Call {site.phone}</a>
+      </p>
+    </div>
+  </section>
+</Base>
