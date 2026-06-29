@@ -3,30 +3,32 @@
    --accent is the brand teal; change it once (in lib/config.ts) to recolor the site. */
 
 :root {
-  /* brand (same in both modes) — deep teal + rope gold (from the logo) */
-  --accent: #0f766e;
-  --accent-bright: #149a8f;
-  --accent-dark: #0b5a54;
-  --gold: #c4a259;
+  /* brand — navy + rope-gold + cream (Rustic Dock) */
+  --accent: #1c4a5a;        /* nautical navy-teal: links, icons, focus */
+  --accent-bright: #2a6577;
+  --accent-dark: #13344a;   /* deep navy */
+  --gold: #c2a04f;
+  --gold-bright: #d8b863;
+  --gold-deep: #8a6b22;     /* readable gold for small text on parchment */
 
-  /* ---------- LIGHT MODE — Sand / sea-cream ---------- */
-  --bg: #f7f1e3;
-  --surface: #efe7d3;
-  --surface-2: #e7dcc2;
-  --card: #fffdf6;
-  --text: #15302e;
-  --text-body: #3c4a47;
-  --text-muted: #7b8a85;
-  --border: #e0d5bb;
-  --link: #0b5a54;
-  --input-bg: #fffdf6;
+  /* ---------- LIGHT MODE (default) — Parchment ---------- */
+  --bg: #f4ecd8;
+  --surface: #ede1c5;
+  --surface-2: #e6d8b6;
+  --card: #fdf8ec;
+  --text: #13344a;
+  --text-body: #4f4634;
+  --text-muted: #897c5d;
+  --border: #ddcca8;
+  --link: #13344a;
+  --input-bg: #fdf8ec;
 
-  --header-bg: #fbf6ea;
-  --hero-bg: #efe7d3;
-  --footer-bg: #e7dcc2;
-  --footer-text: #3c4a47;
-  --shadow: rgba(20,60,58,.12);
-  --shadow-strong: rgba(20,60,58,.22);
+  --header-bg: #f4ecd8;
+  --hero-bg: #0e2738;
+  --footer-bg: #0e2738;
+  --footer-text: #cdded9;
+  --shadow: rgba(40,30,10,.12);
+  --shadow-strong: rgba(40,30,10,.22);
 
   --radius: 10px;
   --max: 1140px;
@@ -34,22 +36,22 @@
 
 /* ---------- DARK MODE ---------- */
 [data-theme="dark"] {
-  /* Deep navy-teal — the logo field */
-  --bg: #0b2630;
-  --surface: #10303a;
-  --surface-2: #081e26;
-  --card: #143842;
-  --text: #eaf3f1;
-  --text-body: #bcd2cf;
-  --text-muted: #7e948f;
-  --border: #224450;
-  --link: #2bb3a3;
-  --input-bg: #10303a;
+  /* Deep navy + gold (Rustic Dock, night) */
+  --bg: #0d2230;
+  --surface: #123042;
+  --surface-2: #0a1b26;
+  --card: #143546;
+  --text: #f3e9d4;
+  --text-body: #cdd8d0;
+  --text-muted: #94a39a;
+  --border: #2a4456;
+  --link: #d8b863;
+  --input-bg: #123042;
 
-  --header-bg: #081e26;
-  --hero-bg: #0b2630;
-  --footer-bg: #081e26;
-  --footer-text: #9db8b4;
+  --header-bg: #0a1b26;
+  --hero-bg: #0a1b26;
+  --footer-bg: #0a1b26;
+  --footer-text: #a9bcb4;
   --shadow: rgba(0,0,0,.5);
   --shadow-strong: rgba(0,0,0,.65);
 }
@@ -448,3 +450,83 @@ code { background: var(--surface); padding: 1px 6px; border-radius: 4px; font-si
 .photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .photo-x { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; padding: 0; border-radius: 50%; border: none; background: rgba(0,0,0,.62); color: #fff; font-size: 1.05rem; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .photo-x:hover { background: #d9534f; }
+
+/* ============================================================
+   RUSTIC DOCK treatment — navy + rope-gold + cream, heritage serif
+   ============================================================ */
+h1, h2, h3, h4, .brandfont { font-family: 'Fraunces', Georgia, 'Times New Roman', serif; letter-spacing: 0; }
+.brand-name { font-family: 'Fraunces', Georgia, serif; }
+
+.eyebrow { color: var(--gold-deep); }
+[data-theme="dark"] .eyebrow { color: var(--gold-bright); }
+
+.btn-primary { background: var(--gold); color: #2a2208; box-shadow: 0 6px 16px rgba(138,107,34,.25); }
+.btn-primary:hover { background: var(--gold-bright); color: #241d06; }
+.btn-ghost { border-color: var(--accent-dark); color: var(--accent-dark); }
+[data-theme="dark"] .btn-ghost { border-color: rgba(243,233,212,.5); color: #f3e9d4; }
+
+.check { background: var(--accent-dark); color: var(--gold); }
+[data-theme="dark"] .check { background: var(--gold); color: #13344a; }
+
+.cta-band { background: var(--accent-dark); }
+.cta-band .btn-primary { background: var(--gold); color: #2a2208; }
+.cta-band .btn-primary:hover { background: var(--gold-bright); }
+
+/* rope divider between sections */
+.rope { height: 8px; background: repeating-linear-gradient(90deg, var(--gold) 0 11px, #8a6b3f 11px 14px); }
+
+/* hero "Fresh · Cape May · Local" seal */
+.hero-seal { position: absolute; top: 24px; right: 24px; z-index: 4; width: 104px; height: 104px; border-radius: 50%;
+  border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; text-align: center;
+  font-size: 11px; line-height: 1.4; letter-spacing: .12em; text-transform: uppercase; font-weight: 700;
+  color: #e7c986; background: rgba(14,39,56,.34); }
+@media (max-width: 860px) { .hero-seal { display: none; } }
+
+/* navy story band (Meet Paul) */
+.story-band { background: var(--accent-dark); }
+.story-band .eyebrow { color: var(--gold-bright); }
+.story-band .welcome blockquote { color: #fdf8ec; }
+.story-band .welcome cite { color: var(--gold-bright); }
+
+/* footer is always navy → force readable cream/gold */
+.site-footer h4 { color: var(--gold); }
+.site-footer a, .site-footer p { color: #d6e3df; }
+.site-footer a:hover { color: #fff; }
+.footer-bottom { color: #8aa39e; }
+
+/* photo-slot product cards */
+.catch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 18px; }
+.catch-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  box-shadow: 0 2px 0 var(--surface-2), 0 12px 30px var(--shadow); }
+.catch-card .ph { height: 168px; position: relative; display: flex; align-items: flex-end; }
+.catch-card .ph.clam { background: linear-gradient(135deg, #d8c9a6, #9a8456); }
+.catch-card .ph.crab { background: linear-gradient(135deg, #5e84a0, #22425c); }
+.catch-card .ph span { position: absolute; left: 12px; bottom: 9px; font-size: 11px; font-style: italic; color: rgba(255,255,255,.85); }
+.catch-card .ph .season { position: absolute; top: 12px; right: 12px; background: var(--gold); color: #2a2208;
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: 4px 11px; border-radius: 5px; }
+.catch-card .bd { padding: 20px 22px; }
+.catch-card h3 { color: var(--accent-dark); margin: 0 0 6px; }
+[data-theme="dark"] .catch-card h3 { color: #f3e9d4; }
+.catch-card p { color: var(--text-body); font-size: .96rem; margin: 0 0 14px; }
+.catch-card .price { display: inline-block; font-weight: 700; color: var(--gold-deep); background: #f2e6c6;
+  border: 1px solid #e2cf9c; padding: 6px 13px; border-radius: 6px; font-size: .9rem; }
+[data-theme="dark"] .catch-card .price { background: #2a3f1f00; background: rgba(216,184,99,.14); color: var(--gold-bright); border-color: #4a5a2f; }
+@media (max-width: 860px) { .catch-grid { grid-template-columns: 1fr; } }
+
+/* testimonial band */
+.tband { text-align: center; }
+.tband .qm { font-family: 'Fraunces', Georgia, serif; color: var(--gold); font-size: 64px; line-height: .4; }
+.tband blockquote { font-family: 'Fraunces', Georgia, serif; font-style: italic; font-size: 1.55rem; line-height: 1.4;
+  color: var(--accent-dark); max-width: 640px; margin: .4em auto .7em; }
+[data-theme="dark"] .tband blockquote { color: #f3e9d4; }
+.tband .stamp { display: inline-block; font-size: .8rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold-deep); border: 1px solid var(--border); padding: 6px 14px; border-radius: 4px; }
+[data-theme="dark"] .tband .stamp { color: var(--gold-bright); }
+
+/* hero text stays readable on the navy hero even if the dynamic sky script doesn't load */
+.hero h1 { color: #fdf8ec; }
+.hero .hero-sub { color: #d3e1dd; }
+.hero .hero-note { color: #aebfc0; }
+.hero .eyebrow { color: var(--gold-bright); }
+.hero .btn-ghost { color: #f3e9d4; border-color: rgba(243,233,212,.5); }
+.hero .btn-ghost:hover { border-color: #fff; color: #fff; }

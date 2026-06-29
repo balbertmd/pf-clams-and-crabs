@@ -35,7 +35,8 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
 >
 
   <section class="hero" id="top">
-    <div class="container hero-inner">
+    <div class="hero-seal">Fresh · Cape May County · Local · NJ</div>
+    <div class="container hero-inner" style="grid-template-columns:1fr;max-width:780px;">
       <div class="hero-text">
         <span class="eyebrow">Wildwood, New Jersey</span>
         <h1>Fresh off the dock. No middleman.</h1>
@@ -46,12 +47,9 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
         </div>
         <p class="hero-note">Dock pickup · Cash or card · Call for today's catch &amp; price</p>
       </div>
-      <div class="hero-media">
-        <img src="/images/logo.png" alt="PF Clams and Crabs logo" width="440" height="440"
-             style="width:auto;max-height:420px;margin:0 auto;border-radius:50%;box-shadow:0 18px 50px rgba(0,0,0,.45);" decoding="async" />
-      </div>
     </div>
   </section>
+  <div class="rope"></div>
 
   <div class="trustbar">
     <div class="container">
@@ -69,29 +67,23 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
       <span class="eyebrow">Off the dock</span>
       <h2>What we've got</h2>
       <p class="section-lead">Grown and caught in Cape May County waters and pulled fresh. What's in changes with the season and the tides.</p>
-      <div class="cat-grid" style="grid-template-columns:repeat(2,1fr);">
-        <div class="cat-card" style="cursor:default;">
-          <span class="cat-ico"><i class="fa-solid fa-water" aria-hidden="true"></i></span>
-          <h3>Hard Clams</h3>
-          <p style="color:var(--text-body);margin:.2em 0 .4em;">Farm-raised right here in our home waters — clean, briny, and grit-free.</p>
-          <ul class="handles-list">
-            <li>Littlenecks for the raw bar</li>
-            <li>Topnecks for the pot</li>
-            <li>Available year-round</li>
-            <li>By the dozen, half-bushel, or bushel</li>
-          </ul>
-        </div>
-        <div class="cat-card" style="cursor:default;">
-          <span class="cat-ico"><i class="fa-solid fa-fish-fins" aria-hidden="true"></i></span>
-          <h3>Live Blue Crab</h3>
-          <p style="color:var(--text-body);margin:.2em 0 .4em;">Jersey blue crab Paul runs his own pots for — sold live, while the season's running.</p>
-          <ul class="handles-list">
-            <li>Sold live — hes or shes</li>
-            <li>Dozen, half-bushel, or bushel</li>
-            <li>Summer season, subject to availability</li>
-            <li>Reserve ahead for a cookout or a crowd</li>
-          </ul>
-        </div>
+      <div class="catch-grid">
+        <article class="catch-card">
+          <div class="ph clam"><span>photo: fresh-pulled clams</span><div class="season">Year-round</div></div>
+          <div class="bd">
+            <h3>Hard Clams</h3>
+            <p>Farm-raised in our home waters — littlenecks for the raw bar, topnecks for the pot. Clean, briny, grit-free. By the dozen, half-bushel, or bushel.</p>
+            <span class="price">Call for today's price</span>
+          </div>
+        </article>
+        <article class="catch-card">
+          <div class="ph crab"><span>photo: live blue crab</span><div class="season">In season</div></div>
+          <div class="bd">
+            <h3>Live Blue Crab</h3>
+            <p>Jersey blue crab Paul runs his own pots for — sold live, hes or shes, by the dozen, half-bushel, or bushel, while the season's running.</p>
+            <span class="price">Subject to availability</span>
+          </div>
+        </article>
       </div>
       <div style="margin-top:26px;background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:20px 24px;">
         <strong style="color:var(--text);">Prices and what's in change with the tides.</strong>
@@ -100,10 +92,12 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
     </div>
   </section>
 
-  <section class="section" id="about">
+  <div class="rope"></div>
+
+  <section class="section story-band" id="about">
     <div class="container welcome">
       <div class="welcome-media">
-        <div style="aspect-ratio:4/3;border-radius:var(--radius);background:linear-gradient(160deg,#12615f,#08322f);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.62);font-style:italic;text-align:center;padding:18px;border:1px solid var(--border);">[ photo of Paul on the dock — coming soon ]</div>
+        <div style="aspect-ratio:4/3;border-radius:var(--radius);background:linear-gradient(160deg,#2a5562,#0a1b26);display:flex;align-items:flex-end;justify-content:flex-start;color:rgba(243,233,212,.6);font-style:italic;padding:14px;border:1px solid #2a4456;font-size:.8rem;">[ photo: Paul on the dock — coming soon ]</div>
       </div>
       <div class="welcome-text">
         <span class="eyebrow">The man on the dock</span>
@@ -138,6 +132,15 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
       <h2>Crabs running? Reserve a bushel.</h2>
       <p>Call or text Paul for today's catch — dock pickup in Wildwood.</p>
       <a class="btn btn-primary" href={tel}>📞 {site.phone}</a>
+    </div>
+  </section>
+
+  <section class="section tband">
+    <div class="container">
+      <div class="qm">&ldquo;</div>
+      <blockquote>Freshest clams on the island — we grabbed a bushel for the cookout and they were gone before the burgers.</blockquote>
+      <span class="stamp">A Wildwood Regular</span>
+      <p style="font-size:.75rem;color:var(--text-muted);margin-top:12px;">Sample — Paul's real customer quotes drop in here.</p>
     </div>
   </section>
 
