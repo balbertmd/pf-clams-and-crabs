@@ -25,18 +25,18 @@ const bizLd = {
   "areaServed": ["Wildwood, NJ", "Cape May County, NJ", "South Jersey Shore"]
 };
 const faqs = [
-  ["Are the clams and crab really local?", "Yes — Paul farms the hard clams right in Cape May County waters and catches the blue crab himself. It goes straight from the dock to you, with no dealer in between."],
+  ["Are the clams and crabs really local?", "Yes — Paul farms the hard clams right in Cape May County waters and catches the blue crabs himself. They go straight from the dock to you, with no dealer in between."],
   ["How do I buy?", "Call or text Paul at (609) 305-3836 to reserve what you want, then pick it up at the dock — 1044 W Rio Grande Ave, Wildwood. Pay cash or card at pickup."],
   ["What do prices run?", "Prices and pack sizes change with the season and the catch, so call or text for today's availability and pricing. Paul will set you up."],
-  ["Is the crab sold live?", "Yes — Jersey blue crab is sold live, by the dozen, half-bushel, or bushel, while the season's running."],
+  ["Are the crabs sold live?", "Yes — Jersey blue crabs are sold live, by the dozen, half-bushel, or bushel, while the season's running."],
   ["Do you ship or deliver?", "Not this season — local dock pickup only for now."],
   ["When are the crabs running?", "Through the summer, when they're biting. Call ahead — when the crabs are in, they go fast."]
 ];
 const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faqs.map(([q, a]) => ({ "@type": "Question", "name": q, "acceptedAnswer": { "@type": "Answer", "text": a } })) };
 ---
 <Base
-  title="PF Clams and Crabs — Fresh Cape May County Clams & Live Jersey Blue Crab | Wildwood, NJ"
-  description="Farm-raised Cape May County hard clams and hand-caught live Jersey blue crab, sold straight from the dock in Wildwood, NJ. Call or text Paul to reserve — no middleman."
+  title="PF Clams and Crabs — Fresh Cape May County Clams & Live Jersey Blue Crabs | Wildwood, NJ"
+  description="Farm-raised Cape May County hard clams and hand-caught live Jersey blue crabs, sold straight from the dock in Wildwood, NJ. Call or text Paul to reserve — no middleman."
   structuredData={[bizLd, faqLd]}
   skipTarget="#catch"
 >
@@ -46,7 +46,7 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
       <div class="hero-text">
         <span class="eyebrow">Wildwood, New Jersey</span>
         <h1>Fresh off the dock. No middleman.</h1>
-        <p class="hero-sub">Farm-raised Cape May County clams and live Jersey blue crab — grown and caught by Paul himself, sold straight to you off the Wildwood dock.</p>
+        <p class="hero-sub">Farm-raised Cape May County clams and live Jersey blue crabs — grown and caught by Paul himself, sold straight to you off the Wildwood dock.</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href={tel}>📞 Call {site.phone}</a>
           <a class="btn btn-ghost" href={sms}>💬 Text to reserve</a>
@@ -60,7 +60,7 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
     <div class="container">
       <ul>
         <li><span class="check">✓</span> Farm-raised Cape May County clams</li>
-        <li><span class="check">✓</span> Live Jersey blue crab</li>
+        <li><span class="check">✓</span> Live Jersey blue crabs</li>
         <li><span class="check">✓</span> Straight from the dock</li>
         <li><span class="check">✓</span> 20 years on the water</li>
       </ul>
@@ -82,10 +82,10 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
           </div>
         </article>
         <article class="catch-card">
-          <div class="ph crab"><span class="ph-soon">Live blue crab<br /><small>fresh photos coming as the season runs</small></span><div class="season">In season</div></div>
+          <div class="ph crab"><span class="ph-soon">Live blue crabs<br /><small>fresh photos coming as the season runs</small></span><div class="season">In season</div></div>
           <div class="bd">
-            <h3>Live Blue Crab</h3>
-            <p>Jersey blue crab Paul runs his own pots for — sold live, hes or shes, by the dozen, half-bushel, or bushel, while the season's running.</p>
+            <h3>Live Blue Crabs</h3>
+            <p>Jersey blue crabs Paul runs his own pots for — sold live, hes or shes, by the dozen, half-bushel, or bushel, while the season's running.</p>
             <span class="price">Subject to availability</span>
           </div>
         </article>
@@ -101,14 +101,15 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
   <section class="section story-band" id="about">
     <div class="container welcome">
       <div class="welcome-media">
-        <video class="dock-video" controls preload="none" playsinline poster="/images/dock-clip-poster.jpg">
-          <source src="/videos/dock-clip.mp4" type="video/mp4" />
-        </video>
+        <button class="dock-video" id="dock-video" type="button" data-src="/videos/dock-clip.mp4" aria-label="Play video: Paul working the clam beds">
+          <img src="/images/dock-clip-poster.jpg" alt="Paul working the Cape May County clam beds" />
+          <span class="video-play" aria-hidden="true"></span>
+        </button>
         <p class="dock-video-cap">▶ Paul working the clam beds — 15 sec</p>
       </div>
       <div class="welcome-text">
         <span class="eyebrow">The man on the dock</span>
-        <blockquote>“Twenty years on these waters. Up to now it all went to dealers — this year I'm selling straight to you. Same clams, same crab, just fresher, and without the middleman taking the cut.”</blockquote>
+        <blockquote>“Twenty years on these waters. Up to now it all went to dealers — this year I'm selling straight to you. Same clams, same crabs, just fresher, and without the middleman taking the cut.”</blockquote>
         <cite>— Paul, PF Clams and Crabs</cite>
       </div>
     </div>
@@ -177,7 +178,7 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
   <section class="section" id="contact">
     <div class="container contact-inner" style="text-align:center;">
       <span class="eyebrow">Get in touch</span>
-      <h2>Reserve your clams &amp; crab</h2>
+      <h2>Reserve your clams &amp; crabs</h2>
       <p class="section-lead" style="margin-left:auto;margin-right:auto;">Call or text Paul with what you want and when — he'll set you up for dock pickup.</p>
       <div class="hero-cta" style="justify-content:center;">
         <a class="btn btn-primary" href={tel}>📞 Call {site.phone}</a>
@@ -186,5 +187,17 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
       <p class="form-note" style="margin-top:14px;">Or email <a href={"mailto:" + site.email}>{site.email}</a></p>
     </div>
   </section>
+
+  <script>
+    const b = document.getElementById('dock-video');
+    if (b) b.addEventListener('click', () => {
+      const v = document.createElement('video');
+      v.src = b.getAttribute('data-src');
+      v.className = 'dock-video';
+      v.controls = true; v.autoplay = true; v.playsInline = true;
+      v.setAttribute('poster', '/images/dock-clip-poster.jpg');
+      b.replaceWith(v);
+    });
+  </script>
 
 </Base>
