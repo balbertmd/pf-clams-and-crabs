@@ -568,3 +568,28 @@ h1, h2, h3, h4, .brandfont { font-family: 'Fraunces', Georgia, 'Times New Roman'
   font-weight: 800; font-size: .8rem; letter-spacing: .02em; padding: 8px 13px; border-radius: 7px; text-decoration: none;
   box-shadow: 0 4px 14px rgba(0,0,0,.32); }
 .location-map .map-link:hover { background: var(--gold-bright); }
+
+/* ============================================================
+   Photo hero + clean transitions (redesign 2026-06-30)
+   ============================================================ */
+/* retire the dynamic sky — use real photography */
+.hero.has-sky .sky, .hero.has-sky .sky-canvas, .hero.has-sky .sky-scrim,
+.site-header.has-sky .sky, .site-header.has-sky .sky-canvas, .site-header.has-sky .sky-scrim { display: none !important; }
+
+/* solid navy header (Cherrystone-style), no seam into the photo hero */
+.site-header, .site-header.has-sky { background: #0c2333; }
+
+/* full-bleed photo hero with dark overlay so the headline stays readable */
+.hero, .hero.has-sky {
+  background-image:
+    linear-gradient(180deg, rgba(8,22,30,.74) 0%, rgba(8,22,30,.60) 45%, rgba(8,22,30,.84) 100%),
+    url('/images/dock/dock-06.jpg');
+  background-size: cover; background-position: center; background-repeat: no-repeat; }
+
+/* warm handwritten accent on section kickers (replaces the rope's job of adding character) */
+.eyebrow { font-family: 'Caveat', 'Fraunces', cursive; text-transform: none; letter-spacing: .01em;
+  font-size: 1.4rem; font-weight: 700; margin-bottom: .15em; }
+.hero .eyebrow { font-size: 1.6rem; }
+
+/* dividers are now the navy/cream color bands themselves */
+.rope { display: none !important; }
