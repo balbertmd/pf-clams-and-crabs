@@ -32,6 +32,13 @@
       "show": true
     },
     {
+      "name": "YouTube",
+      "brand": "youtube",
+      "icon": "fa-brands fa-youtube",
+      "url": "https://www.youtube.com/@PFClamsandCrabs-n3g",
+      "show": true
+    },
+    {
       "name": "Instagram",
       "brand": "instagram",
       "icon": "fa-brands fa-instagram",
