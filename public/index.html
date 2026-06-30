@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PF Clams and Crabs â€” Max</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--navy:#081a26;--navy2:#0c2333;--steel:#13344a;--cream:#f4ecd8;--gold:#c2a04f;--gold-bright:#e6c879;--ink:#0b1822;--white:#fdf8ec;--maxw:1180px}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Newsreader',Georgia,serif;color:var(--white);background:var(--navy);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6}
+  img{display:block;max-width:100%}a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:1rem;padding:15px 28px;border-radius:999px;border:2px solid transparent;cursor:pointer;transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,background .25s}
+  .btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.97)}
+  .btn-gold{background:linear-gradient(135deg,var(--gold-bright),var(--gold));color:#201a06;box-shadow:0 10px 34px rgba(194,160,79,.45)}
+  .btn-ghost{border-color:rgba(230,200,121,.6);color:var(--gold-bright);backdrop-filter:blur(4px)}.btn-ghost:hover{border-color:var(--gold-bright);background:rgba(230,200,121,.12)}
+  .eyebrow{font-family:Caveat,cursive;color:var(--gold-bright);font-size:1.55rem;line-height:1;display:block}
+  h2{font-weight:900;font-size:clamp(2rem,5.2vw,3.4rem);line-height:1.02;letter-spacing:-.01em;color:#fff;margin:.1em 0 .4em}
+  .lead{font-size:1.1rem;max-width:54ch;color:#b9cbd2}
+  .reveal{opacity:0;transform:translateY(40px) scale(.99);transition:opacity 1s cubic-bezier(.2,.7,.2,1),transform 1s cubic-bezier(.2,.7,.2,1)}.reveal.in{opacity:1;transform:none}
+
+  /* scroll progress */
+  .prog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-bright));z-index:80;box-shadow:0 0 12px var(--gold)}
+
+  header{position:fixed;inset:0 0 auto 0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;transition:background .35s,padding .35s,backdrop-filter .35s}
+  header.scrolled{background:rgba(8,26,38,.85);backdrop-filter:blur(14px) saturate(140%);padding:8px 24px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+  header .brand img{height:56px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
+  header nav{display:none;gap:28px}@media(min-width:920px){header nav{display:flex}}
+  header nav a{color:#fff;font-weight:600;font-size:.95rem;opacity:.88;position:relative}
+  header nav a::after{content:"";position:absolute;left:0;right:100%;bottom:-5px;height:2px;background:var(--gold-bright);transition:right .3s}
+  header nav a:hover::after{right:0}
+  header .hcall{color:#fff;font-weight:700;font-size:.95rem}
+
+  /* HERO immersive */
+  .hero{position:relative;height:100svh;min-height:640px;display:flex;align-items:center;overflow:hidden}
+  .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transform:scale(1.08)}
+  .hero .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,26,38,.38) 0%,rgba(8,26,38,.28) 40%,rgba(8,26,38,.62) 72%,rgba(8,26,38,.9) 100%)}
+  .hero .glow{position:absolute;width:60vw;height:60vw;left:-10vw;top:-10vw;z-index:1;background:radial-gradient(circle,rgba(194,160,79,.22),transparent 60%);filter:blur(20px);animation:drift 14s ease-in-out infinite alternate}
+  @keyframes drift{to{transform:translate(20vw,15vh)}}
+  .hero .inner{position:relative;z-index:3;width:100%;padding-top:60px}
+  .hero .eye{font-family:Caveat,cursive;color:var(--gold-bright);font-size:1.9rem}
+  .hero h1{font-weight:900;font-size:clamp(2.8rem,10vw,6.2rem);line-height:.95;letter-spacing:-.02em;margin:.08em 0 .3em;color:#fff;text-shadow:0 6px 40px rgba(0,0,0,.5)}
+  .hero h1 .ln{display:block;overflow:hidden}
+  .hero h1 .ln span{display:inline-block;transform:translateY(110%);animation:up .9s cubic-bezier(.2,.8,.2,1) forwards}
+  .hero h1 .ln:nth-child(2) span{animation-delay:.15s}
+  @keyframes up{to{transform:none}}
+  .hero h1 em{font-style:normal;color:var(--gold-bright)}
+  .hero p{color:rgba(255,255,255,.92);font-size:clamp(1.05rem,2.6vw,1.35rem);max-width:36ch;margin-bottom:1.6em;opacity:0;animation:fin 1s ease .7s forwards}
+  @keyframes fin{to{opacity:1}}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:fin 1s ease .9s forwards}
+  /* animated wave bottom */
+  .wavebox{position:absolute;left:0;right:0;bottom:-1px;z-index:2;line-height:0}
+  .wavebox svg{width:100%;height:115px;display:block}
+  .scrollcue{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:3;color:#fff;opacity:.65;font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;animation:bob 2.2s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+  /* marquee */
+  .marq{background:var(--gold);color:#201a06;overflow:hidden;white-space:nowrap;padding:12px 0;font-family:Caveat,cursive;font-size:1.6rem;font-weight:700}
+  .marq .t{display:inline-block;animation:scrl 26s linear infinite}
+  @keyframes scrl{to{transform:translateX(-50%)}}
+
+  section.block{padding:clamp(64px,9vw,130px) 0;position:relative}
+  .section-cream{background:var(--cream);color:var(--ink)}
+  .section-cream h2{color:var(--navy)}.section-cream .lead{color:#4a5560}.section-cream .eyebrow{color:var(--gold)}
+
+  /* glass floating "today" card */
+  .today{position:relative;margin-top:-70px;z-index:5}
+  .todaycard{background:linear-gradient(160deg,#16415a,#0c2333);border:1.5px solid rgba(194,160,79,.55);border-radius:18px;padding:24px 26px 26px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+  .todaycard b{display:block;font-family:Caveat,cursive;color:#e6c879;font-size:1.85rem;line-height:1;margin-bottom:14px}
+  .today-list{list-style:none;margin:0 0 18px;padding:0}
+  .today-list li{color:#efe4cb;font-size:1.05rem;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .today-list li:last-child{border-bottom:none}
+  .today-list em{font-style:normal;color:#e6c879;font-family:Caveat,cursive;font-size:1.2rem}
+  .today-cta{display:inline-block;margin-top:4px;color:#201a06;background:#c2a04f;font-weight:700;padding:11px 24px;border-radius:999px;font-size:.95rem;transition:background .2s}
+  .today-cta:hover{background:#e6c879}
+  .glass{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(16px) saturate(140%);border-radius:18px;padding:22px 26px;display:flex;flex-wrap:wrap;gap:14px 30px;align-items:center;justify-content:center;box-shadow:0 24px 60px rgba(0,0,0,.4);text-align:center}
+  .glass b{color:var(--gold-bright);font-family:Caveat,cursive;font-size:1.5rem}
+  .glass span{font-size:.95rem;color:#e7eef0}
+
+  /* catch â€” glass over photo */
+  .catch{display:grid;grid-template-columns:1fr;gap:24px;margin-top:36px}@media(min-width:760px){.catch{grid-template-columns:1fr 1fr}}
+  .ccard{position:relative;border-radius:18px;overflow:hidden;min-height:440px;display:flex;align-items:flex-end;box-shadow:0 24px 60px rgba(0,0,0,.35);isolation:isolate}
+  .ccard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+  .ccard:hover img{transform:scale(1.08)}
+  .ccard .g{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,26,38,0) 28%,rgba(8,26,38,.92) 100%)}
+  .ccard .c{position:relative;z-index:2;padding:26px;width:100%}
+  .ccard .cglass{background:rgba(8,26,38,.34);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:18px 20px}
+  .ccard .tag{position:absolute;top:18px;left:18px;z-index:3;background:var(--gold);color:#201a06;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:6px 13px;border-radius:999px}
+  .ccard h3{font-size:1.9rem;font-weight:900;margin-bottom:.15em}
+  .ccard p{font-size:.95rem;color:rgba(255,255,255,.9);margin-bottom:.6em}
+  .ccard .price{font-family:Caveat,cursive;font-size:1.4rem;color:var(--gold-bright)}
+  .ccard.soon{background:linear-gradient(150deg,var(--steel),var(--navy2));align-items:center;justify-content:center;text-align:center}
+
+  /* parallax story */
+  .story{position:relative;overflow:hidden;background:#06141d}
+  .story .pbg{position:absolute;inset:-12% 0;z-index:0;background-size:cover;background-position:center;opacity:.78;will-change:transform}
+  .story .pscrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(6,20,29,.5),rgba(6,20,29,.74) 60%,rgba(6,20,29,.86))}
+  .story .wrap{position:relative;z-index:2;text-align:center;padding:clamp(80px,12vw,160px) 24px;text-shadow:0 2px 18px rgba(0,0,0,.6)}
+  .story blockquote{font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.3;font-style:italic;max-width:18ch;margin:.3em auto;color:#fff}
+  .story cite{font-family:Caveat,cursive;font-size:1.8rem;color:var(--gold-bright);font-style:normal}
+
+  /* bento + lightbox */
+  .bento{display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:130px;gap:12px;margin-top:36px}
+  @media(min-width:680px){.bento{grid-template-columns:repeat(4,1fr);grid-auto-rows:165px}}
+  .bento a{position:relative;overflow:hidden;border-radius:14px;background:var(--steel);cursor:pointer}
+  .bento img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s;opacity:0}.bento img.loaded{opacity:1}
+  .bento a:hover img{transform:scale(1.1)}
+  .bento .cap{position:absolute;inset:auto 0 0 0;z-index:2;padding:16px 12px 10px;color:#fff;font-size:.8rem;font-weight:600;background:linear-gradient(transparent,rgba(6,20,29,.85));opacity:0;transition:opacity .3s}.bento a:hover .cap{opacity:1}
+  .b-wide{grid-column:span 2}.b-tall{grid-row:span 2}
+  .lb{position:fixed;inset:0;z-index:90;background:rgba(6,16,22,.94);display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+  .lb.on{display:flex}.lb img{max-width:94vw;max-height:90vh;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+
+  .hours .card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(6px);border-radius:16px;padding:28px;color:#fff}
+  .hgrid{display:grid;grid-template-columns:1fr;gap:24px;margin-top:32px}@media(min-width:820px){.hgrid{grid-template-columns:1fr 1fr}}
+  .hours h3{font-size:1.35rem;font-weight:900;color:var(--gold-bright)}
+  .hours .row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:.95rem}
+  .map{margin-top:14px;border-radius:12px;overflow:hidden;min-height:230px;background:#0e2330;border:1px solid rgba(255,255,255,.12)}.map iframe{width:100%;height:230px;border:0;display:block}
+
+  .ctaband{position:relative;text-align:center;padding:clamp(70px,10vw,140px) 0;overflow:hidden}
+  .ctaband img{position:absolute;inset:-10% 0;width:100%;height:120%;object-fit:cover;z-index:0;will-change:transform}
+  .ctaband .g{position:absolute;inset:0;z-index:1;background:radial-gradient(circle at 50% 40%,rgba(8,26,38,.55),rgba(8,26,38,.9))}
+  .ctaband .wrap{position:relative;z-index:2}.ctaband .badge{font-family:Caveat,cursive;color:var(--gold-bright);font-size:1.6rem}
+
+  footer{background:#05121a;color:#bcd0cb;padding:42px 0 116px}
+  .block.hours{padding-bottom:36px}
+  footer .fg{display:grid;grid-template-columns:1fr;gap:26px}@media(min-width:760px){footer .fg{grid-template-columns:2fr 1fr 1fr}}
+  footer h4{color:var(--gold);font-family:Caveat,cursive;font-size:1.5rem;margin-bottom:.3em}footer a:hover{color:#fff}
+  footer .soc{display:flex;gap:16px;margin-top:16px;align-items:center}footer .soc a{display:inline-flex;background:none;border:none;transition:transform .2s}footer .soc a:hover{transform:translateY(-3px)}footer .soc svg{width:34px;height:34px;display:block}
+
+  .callbar{position:fixed;inset:auto 0 0 0;z-index:70;display:flex;gap:10px;padding:10px 12px 12px;background:linear-gradient(180deg,rgba(8,26,38,.06),rgba(8,26,38,.6));backdrop-filter:blur(8px);transform:translateY(110%);transition:transform .4s}.callbar.show{transform:none}.callbar a{flex:1;justify-content:center}
+  @media(min-width:760px){.callbar{display:none}}
+
+  /* clean social icons */
+  .soc svg{width:20px;height:20px;fill:#fff;transition:fill .2s}
+  .soc a:hover svg{fill:#201a06}
+  /* contrast-safe glass (legible in sunlight) */
+  .glass{background:rgba(8,26,38,.55);border-color:rgba(255,255,255,.2)}
+  .glass span{color:#eef4f5}
+  .ccard .cglass{background:rgba(6,18,26,.76);border-color:rgba(255,255,255,.18)}
+  .ccard h3{color:#fff}
+  .ccard p,.ccard .cglass p{color:#eaf1f3}
+  .ccard h3,.ccard p{text-shadow:0 1px 10px rgba(0,0,0,.55)}
+  .ccard.soon .price{color:#cfd9c4 !important}
+  .hero h1,.hero p{text-shadow:0 3px 22px rgba(0,0,0,.6)}
+  /* honor reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important}
+    .hero h1 .ln span,.hero p,.hero .cta{transform:none!important;opacity:1!important}
+    .hero video{transform:none}
+    .pbg,.ctaband img{transform:none!important}
+  }
+
+  /* warm 'creme brulee' text â€” softer than stark white */
+  :root{--txt:#e9dcb6;--head:#f1e4be;--txt-dim:#d2c39c}
+  body{color:var(--txt)}
+  /* Fraunces for display headings only; Newsreader handles body so letterforms (the J!) read clean */
+  h1,h2,h3,blockquote{font-family:'Fraunces',Georgia,serif}
+  .hero h1,h2,.ccard h3,.story blockquote,.hours h3{color:var(--head)}
+  .hero p,.lead,.ccard p,.ccard .cglass p,.story .wrap p,.glass span,.hours .card p,header nav a{color:var(--txt)}
+  header .hcall{color:var(--head)}
+  /* clean inline icons inherit the button's text colour, so they're visible on dark AND on gold */
+  .ico{width:1.05em;height:1.05em;display:inline-block;vertical-align:-.16em;fill:currentColor;margin-right:.3em}
+  .ico-phone{fill:#d9534f}
+  .btn{justify-content:center}
+  .btn .ico{margin-right:0}
+  .marq .seg{margin:0 5px}
+  .marq .sep{width:1.5em;height:1.5em;display:inline-block;vertical-align:middle;margin:0 14px}
+  .marq .seg{vertical-align:middle}
+  /* lightbox gallery navigation */
+  .lb-close,.lb-nav{position:absolute;z-index:3;background:rgba(244,236,216,.12);border:1px solid rgba(244,236,216,.32);color:#f6efdb;cursor:pointer;backdrop-filter:blur(6px);transition:background .2s,color .2s}
+  .lb-close:hover,.lb-nav:hover{background:var(--gold);color:#201a06}
+  .lb-close{top:16px;right:16px;width:46px;height:46px;border-radius:50%;font-size:1.25rem;line-height:1}
+  .lb-nav{top:50%;transform:translateY(-50%);width:54px;height:54px;border-radius:50%;font-size:2rem;line-height:1;display:flex;align-items:center;justify-content:center}
+  .lb-prev{left:14px}.lb-next{right:14px}
+  .lb-cap{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#f6efdb;font-size:.95rem;z-index:3;text-shadow:0 2px 8px #000;pointer-events:none}
+  @media(max-width:560px){.lb-nav{width:46px;height:46px;font-size:1.6rem}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+  <linearGradient id="gNavy" x1="0" y1="0" x2="0.7" y2="1"><stop offset="0" stop-color="#4a7f9e"/><stop offset="0.5" stop-color="#244e66"/><stop offset="1" stop-color="#13354a"/></linearGradient>
+  <radialGradient id="gRedR" cx="0.36" cy="0.32" r="0.85"><stop offset="0" stop-color="#ec6a5e"/><stop offset="0.6" stop-color="#d23f39"/><stop offset="1" stop-color="#9e2f2a"/></radialGradient>
+  <linearGradient id="gWood" x1="0" y1="0" x2="0.7" y2="1"><stop offset="0" stop-color="#a5752f"/><stop offset="0.5" stop-color="#6e4824"/><stop offset="1" stop-color="#452a14"/></linearGradient>
+  <linearGradient id="gRope" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eed09a"/><stop offset="1" stop-color="#b8923f"/></linearGradient>
+</defs></svg>
+<div class="prog" id="prog"></div>
+<header id="hdr">
+  <a class="brand" href="#top"><img src="/images/logo.png" alt="PF Clams and Crabs"></a>
+  <nav><a href="#catch">The Catch</a><a href="#paul">Meet Paul</a><a href="#gallery">The Dock</a><a href="#hours">Find Us</a></nav>
+  <a class="hcall" href="tel:+16093053836"><svg class="ico ico-phone" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.9a15.5 15.5 0 0 0 6.5 6.5l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"/></svg>(609) 305-3836</a>
+</header>
+
+<section class="hero" id="top">
+  <video autoplay muted loop playsinline poster="/images/dock-clip-poster.jpg"><source src="/videos/dock-clip.mp4" type="video/mp4"></video>
+  <div class="glow"></div><div class="scrim"></div>
+  <div class="inner"><div class="wrap">
+    <div class="eye">Wildwood Â· The Jersey Shore</div>
+    <h1><span class="ln"><span>Fresh off the dock.</span></span><span class="ln"><span><em>No middleman.</em></span></span></h1>
+    <p>Farm-raised Cape May County clams and live Jersey blue crabs â€” grown and caught by Paul himself, straight off the Wildwood dock.</p>
+    <div class="cta"><a class="btn btn-ghost" href="tel:+16093053836"><svg class="ico ico-phone" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.9a15.5 15.5 0 0 0 6.5 6.5l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"/></svg>Call us</a><a class="btn btn-ghost" href="sms:+16093053836"><svg class="ico ico-msg" viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="#25c152"/><path d="M12 6c-3.6 0-6.6 2.3-6.6 5.2 0 1.7 1 3.1 2.5 4.1-.2.9-.9 1.8-.9 1.8-.1.2.1.4.3.3 1.2-.3 2.3-.9 2.8-1.2.6.1 1.2.2 1.9.2 3.6 0 6.6-2.3 6.6-5.2C18.6 8.3 15.6 6 12 6z" fill="#fff"/></svg>Text to reserve</a></div>
+  </div></div>
+  <div class="wavebox"><svg viewBox="0 0 1440 110" preserveAspectRatio="none">
+    <path id="wv-back" fill="#16455c" opacity="0.5" d="M0,55 C360,95 720,25 1080,60 C1260,78 1380,45 1440,58 L1440,110 L0,110 Z"></path>
+    <path id="wv-mid" fill="#f4ecd8" d="M0,66 C360,106 720,36 1080,70 C1260,88 1380,56 1440,68 L1440,110 L0,110 Z"></path>
+    <path id="wv-crest" fill="none" stroke="#c2a04f" stroke-width="2.5" opacity="0.8" d="M0,66 C360,106 720,36 1080,70 C1260,88 1380,56 1440,68"></path>
+  </svg></div>
+  <div class="scrollcue">Scroll â†“</div>
+</section>
+
+<div class="marq"><div class="t" id="marqT"></div></div>
+
+<section class="block section-cream"><div class="wrap">
+  <div class="today"><div class="todaycard reveal">
+    <b>Today at the dock</b>
+    <ul class="today-list">
+      <li>Littlenecks &amp; topnecks <em>Â· year-round</em></li>
+      <li>Live blue crabs <em>Â· in season</em></li>
+    </ul>
+    <a class="today-cta" href="tel:+16093053836">Call for today's price â†’</a>
+  </div></div>
+  <div class="reveal" id="catch" style="margin-top:54px"><span class="eyebrow">Off the dock</span><h2>What we've got</h2><p class="lead">Grown and caught in Cape May County waters and pulled fresh. What's in changes with the season and the tides.</p></div>
+  <div class="catch">
+    <article class="ccard reveal"><span class="tag">Year-round</span><img src="/images/dock/dock-06.jpg" alt="Hard clams"><div class="g"></div><div class="c"><div class="cglass"><h3>Hard Clams</h3><p>Littlenecks for the raw bar, topnecks for the pot. Clean, briny, grit-free.</p><div class="price">Call for today's price</div></div></div></article>
+    <article class="ccard soon reveal"><span class="tag">In season</span><div class="c"><div class="cglass"><h3>Live Blue Crabs</h3><p>Jersey blue crabs Paul runs his own pots for â€” sold live, by the dozen, half-bushel, or bushel.</p><div class="price" style="font-style:italic;font-size:.85rem;color:rgba(243,233,212,.7)">fresh photos coming as the season runs</div></div></div></article>
+  </div>
+</div></section>
+
+<section class="story" id="paul"><div class="pbg" id="pbg" style="background-image:url('/images/dock/dock-12.jpg')"></div><div class="pscrim"></div>
+  <div class="wrap reveal"><span class="eyebrow">The man on the dock</span>
+    <blockquote>â€œTwenty years on these waters â€” straight from my dock to your table.â€</blockquote>
+    <cite>â€” Paul, PF Clams and Crabs</cite>
+    <p style="max-width:46ch;margin:1.2em auto 0;color:#c4d4da">Up to now it all went to dealers. This year Paul's selling straight to you â€” same clams, same crabs, just fresher, without the middleman taking the cut.</p>
+  </div>
+</section>
+
+<section class="block"><div class="wrap">
+  <div class="reveal" id="gallery"><span class="eyebrow">From the dock</span><h2>The catch, the boat, the bay</h2><p class="lead">Real days on the water in Cape May County â€” no stock photos, just Paul's clams and his dock.</p></div>
+  <div class="bento reveal" id="bento"></div>
+</div></section>
+
+<section class="ctaband"><img id="ctaImg" src="/images/dock/dock-02.jpg" alt=""><div class="g"></div>
+  <div class="wrap"><div class="badge">Crabs running?</div><h2>Reserve a bushel today.</h2><p style="max-width:42ch;margin:.3em auto 1.4em;color:#e9dcb6">Call or text us for today's catch â€” dock pickup in Wildwood, cash or card.</p><a class="btn btn-ghost" href="tel:+16093053836"><svg class="ico ico-phone" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.9a15.5 15.5 0 0 0 6.5 6.5l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"/></svg>(609) 305-3836</a></div>
+</section>
+
+<section class="block hours" id="hours"><div class="wrap">
+  <div class="reveal"><span class="eyebrow">Find the dock</span><h2>Hours &amp; Pickup</h2></div>
+  <div class="hgrid">
+    <div class="card reveal"><h3>Hours</h3><div class="row"><span>Monâ€“Sun</span><b style="color:var(--gold-bright)">Call for today's hours</b></div><p style="margin-top:14px;color:#9fb3ba;font-size:.9rem">Seasonal â€” we set hours by the day. Call ahead before you come.</p></div>
+    <div class="card reveal"><h3>Pickup</h3><p style="font-size:1.05rem;color:#efe4cb"><b>PF Clams and Crabs</b><br>1044 W Rio Grande Ave, Wildwood, NJ 08260</p><p style="margin:10px 0"><b>Phone:</b> <a href="tel:+16093053836" style="color:var(--gold-bright);font-weight:700">(609) 305-3836</a></p><a class="btn btn-gold" style="font-size:.9rem;padding:12px 20px" href="https://www.google.com/maps/dir/?api=1&destination=1044%20W%20Rio%20Grande%20Ave%2C%20Wildwood%2C%20NJ%2008260" target="_blank">Get Directions â†’</a><div class="map"><iframe loading="lazy" src="https://maps.google.com/maps?q=1044%20W%20Rio%20Grande%20Ave%2C%20Wildwood%2C%20NJ%2008260&z=15&output=embed"></iframe></div></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap"><div class="fg">
+  <div><h4>PF Clams and Crabs</h4><p>1044 W Rio Grande Ave, Wildwood, NJ 08260<br><a href="tel:+16093053836">(609) 305-3836</a> Â· pfclams@gmail.com</p><div class="soc">
+      <a href="https://share.google/Arr0J0cr89zlux3Ta" target="_blank" rel="noopener" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.5 5C9.5 43.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C39 35.2 44 30 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg></a>
+      <a href="https://www.facebook.com/profile.php?id=61590822496968" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="11" fill="#1877F2"/><path fill="#fff" d="M29.7 24.6l.8-5.4h-5.2v-3.5c0-1.5.7-2.9 3-2.9h2.4V8.2s-2.2-.4-4.2-.4c-4.3 0-7.1 2.6-7.1 7.3v4.1h-4.7v5.4h4.7V38h5.9V24.6z"/></svg></a>
+      <a href="https://www.youtube.com/@PFClamsandCrabs-n3g" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 48 48"><rect x="3" y="11" width="42" height="26" rx="7" fill="#FF0000"/><path fill="#fff" d="M20 17.5l13 6.5-13 6.5z"/></svg></a>
+    </div></div>
+  <div><h4>Off the Dock</h4><p><a href="#catch">Hard Clams</a><br><a href="#catch">Live Blue Crabs</a><br><a href="tel:+16093053836">Today's Catch</a></p></div>
+  <div><h4>Visit</h4><p><a href="#paul">Meet Paul</a><br><a href="#hours">Hours &amp; Pickup</a><br><a href="#gallery">The Dock</a></p></div>
+</div><p style="margin-top:40px;font-size:.8rem;color:#6f8c84">Â© 2026 PF Clams and Crabs Â· Fresh Â· Cape May County Â· Local</p></div></footer>
+
+<div class="callbar" id="callbar"><a class="btn btn-ghost" href="tel:+16093053836"><svg class="ico ico-phone" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.9a15.5 15.5 0 0 0 6.5 6.5l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .57 3.6 1 1 0 0 1-.25 1z"/></svg>Call</a><a class="btn btn-ghost" href="sms:+16093053836"><svg class="ico ico-msg" viewBox="0 0 24 24" aria-hidden="true"><rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="#25c152"/><path d="M12 6c-3.6 0-6.6 2.3-6.6 5.2 0 1.7 1 3.1 2.5 4.1-.2.9-.9 1.8-.9 1.8-.1.2.1.4.3.3 1.2-.3 2.3-.9 2.8-1.2.6.1 1.2.2 1.9.2 3.6 0 6.6-2.3 6.6-5.2C18.6 8.3 15.6 6 12 6z" fill="#fff"/></svg>Text</a></div>
+<div class="lb" id="lb">
+  <button class="lb-close" id="lbClose" aria-label="Close gallery">âœ•</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous photo">â€¹</button>
+  <img id="lbimg" src="" alt="">
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Next photo">â€º</button>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+  // nautical marquee â€” anchors + life-ring buoys between phrases
+  (function(){
+    var anchor='<svg class="sep" viewBox="0 0 40 40"><g fill="url(#gNavy)"><rect x="18.5" y="7" width="3" height="23" rx="1.5"/><rect x="11.5" y="10.4" width="17" height="2.6" rx="1.3"/><circle cx="11.5" cy="11.7" r="1.7"/><circle cx="28.5" cy="11.7" r="1.7"/><path d="M20 31c-5.2 0-9.7-4-11-9.3l-2.4 1.5 1.1-6.8 5.3 4.3-2.3 1.4C12.4 31 16 34 20 34s7.6-3 9.3-11.9l-2.3-1.4 5.3-4.3 1.1 6.8-2.4-1.5C29.7 27 25.2 31 20 31z"/></g><circle cx="20" cy="5" r="2.9" fill="none" stroke="url(#gNavy)" stroke-width="2.4"/><path d="M21 9c3.4 2-2.4 4.4-.8 7.4 1.5 2.4 4.4 1.8 3 5.1" fill="none" stroke="url(#gRope)" stroke-width="2" stroke-linecap="round"/></svg>';
+    var lifering='<svg class="sep" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17.6" fill="none" stroke="url(#gRope)" stroke-width="2.4" stroke-dasharray="2.4 3"/><circle cx="20" cy="20" r="16.3" fill="url(#gRedR)"/><g fill="#f1e4be"><rect x="17.5" y="2.6" width="5" height="9" rx="1.2"/><rect x="17.5" y="28.4" width="5" height="9" rx="1.2"/><rect x="2.6" y="17.5" width="9" height="5" rx="1.2"/><rect x="28.4" y="17.5" width="9" height="5" rx="1.2"/></g><circle cx="20" cy="20" r="7.2" fill="#c2a04f"/><path d="M9 12a13 13 0 0 1 8-5" fill="none" stroke="#fff" stroke-opacity="0.42" stroke-width="1.8" stroke-linecap="round"/></svg>';
+    var wheel='<svg class="sep" viewBox="0 0 40 40"><g stroke="url(#gWood)" stroke-width="1.9" stroke-linecap="round"><path d="M20 20L36 20M20 20L31.3 31.3M20 20L20 36M20 20L8.7 31.3M20 20L4 20M20 20L8.7 8.7M20 20L20 4M20 20L31.3 8.7"/></g><circle cx="20" cy="20" r="10.5" fill="none" stroke="url(#gWood)" stroke-width="2.8"/><g stroke="url(#gWood)" stroke-width="3.2" stroke-linecap="round"><path d="M31 20L36.5 20M27.8 27.8L31.7 31.7M20 31L20 36.5M12.2 27.8L8.3 31.7M9 20L3.5 20M12.2 12.2L8.3 8.3M20 9L20 3.5M27.8 12.2L31.7 8.3"/></g><g fill="url(#gWood)"><circle cx="36.5" cy="20" r="1.7"/><circle cx="31.7" cy="31.7" r="1.7"/><circle cx="20" cy="36.5" r="1.7"/><circle cx="8.3" cy="31.7" r="1.7"/><circle cx="3.5" cy="20" r="1.7"/><circle cx="8.3" cy="8.3" r="1.7"/><circle cx="20" cy="3.5" r="1.7"/><circle cx="31.7" cy="8.3" r="1.7"/></g><circle cx="20" cy="20" r="3.4" fill="#caa14f" stroke="#5e3d1c" stroke-width="0.8"/><circle cx="18.9" cy="18.9" r="1" fill="#f1e4be" opacity="0.7"/></svg>';
+    var buoy='<svg class="sep" viewBox="0 0 40 40"><ellipse cx="20" cy="37.5" rx="11" ry="2.2" fill="#0e3045" opacity=".3"/><circle cx="20" cy="7" r="3.2" fill="none" stroke="url(#gRope)" stroke-width="1.8"/><circle cx="20" cy="23" r="12.5" fill="url(#gRedR)"/><rect x="7.5" y="20.4" width="25" height="5.3" fill="#f1e4be"/><ellipse cx="15.5" cy="17" rx="3.5" ry="2.2" fill="#fff" opacity="0.35"/></svg>';
+    var icons=[anchor,lifering,wheel,buoy];
+    var phrases=['Fresh','Cape May County','Jersey Shore','Off the dock','No middleman','Live blue crabs','Farm-raised clams','Local'];
+    var html='';phrases.forEach(function(p,i){html+='<span class="seg">'+p+'</span>'+icons[i%4]});
+    var t=document.getElementById('marqT');if(t)t.innerHTML=html+html;
+  })();
+  const hdr=document.getElementById('hdr'),bar=document.getElementById('callbar'),prog=document.getElementById('prog'),pbg=document.getElementById('pbg'),story=document.querySelector('.story'),cta=document.querySelector('.ctaband'),ctaImg=document.getElementById('ctaImg');
+  const noMo=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function onScroll(){const y=scrollY;hdr.classList.toggle('scrolled',y>40);bar.classList.toggle('show',y>560);
+    const h=document.documentElement.scrollHeight-innerHeight;prog.style.width=(y/h*100)+'%';
+    if(noMo)return;
+    // parallax â€” story + bushel band move slower than the page for depth
+    if(story){const r=story.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0){pbg.style.transform='translateY('+(r.top*-0.12)+'px)'}}
+    if(ctaImg){const r=cta.getBoundingClientRect();if(r.top<innerHeight&&r.bottom>0){ctaImg.style.transform='translateY('+(r.top*-0.06)+'px)'}}}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  // layered hero wave â€” paused when offscreen, skipped on reduced-motion
+  const wB=document.getElementById('wv-back'),wM=document.getElementById('wv-mid'),wC=document.getElementById('wv-crest');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let t=0,wActive=false;
+  function P(base,amp,ph,sp,close){const a=base+Math.sin(t*sp+ph)*amp,b=base+Math.cos(t*sp*1.05+ph)*amp*1.15,c=base+Math.sin(t*sp*0.9+ph)*amp*0.8;const top=`M0,${a} C360,${a+40} 720,${b-34} 1080,${b} C1260,${b+26} 1380,${c-24} 1440,${c}`;return close?`${top} L1440,110 L0,110 Z`:top}
+  function wave(){if(!wActive)return;t+=.018;wB.setAttribute('d',P(54,13,1.3,.8,true));wM.setAttribute('d',P(66,16,0,1,true));wC.setAttribute('d',P(66,16,0,1,false));requestAnimationFrame(wave)}
+  if(!reduce){new IntersectionObserver(es=>{const vis=es[0].isIntersecting;if(vis&&!wActive){wActive=true;wave()}else if(!vis){wActive=false}}).observe(document.querySelector('.hero'))}
+  // bento + browsable lightbox
+  const imgs=[['dock-12','Boat in â€” straight to the dock','b-wide'],['dock-06','Fresh-pulled hard clams','b-tall'],['dock-02',"A morning's haul",''],['dock-19','Littlenecks off the boat',''],['dock-00','Out at first light',''],['dock-08','Sorting the catch',''],['dock-09','In the cull house','b-wide'],['dock-17','Bagged for pickup',''],['dock-05','Graded by hand','']];
+  const base='/images/gallery/';
+  const bento=document.getElementById('bento'),lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg'),lbCap=document.getElementById('lbCap');
+  let cur=0;
+  function show(i){cur=(i+imgs.length)%imgs.length;lbimg.src=base+imgs[cur][0]+'.jpg';lbimg.alt=imgs[cur][1];lbCap.textContent=imgs[cur][1]}
+  function openLb(i){show(i);lb.classList.add('on')}
+  function closeLb(){lb.classList.remove('on')}
+  imgs.forEach(([f,c,cls],i)=>{const a=document.createElement('a');a.className=cls;const u=base+f+'.jpg';const im=new Image();im.src=u;im.alt=c;im.onload=()=>im.classList.add('loaded');a.appendChild(im);const cap=document.createElement('div');cap.className='cap';cap.textContent=c;a.appendChild(cap);a.onclick=e=>{e.preventDefault();openLb(i)};bento.appendChild(a)});
+  document.getElementById('lbClose').onclick=closeLb;
+  document.getElementById('lbPrev').onclick=e=>{e.stopPropagation();show(cur-1)};
+  document.getElementById('lbNext').onclick=e=>{e.stopPropagation();show(cur+1)};
+  lbimg.onclick=e=>e.stopPropagation();
+  lb.onclick=closeLb;
+  addEventListener('keydown',e=>{if(!lb.classList.contains('on'))return;if(e.key==='Escape')closeLb();else if(e.key==='ArrowLeft')show(cur-1);else if(e.key==='ArrowRight')show(cur+1)});
+  let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)show(cur+(dx<0?1:-1))},{passive:true});
+</script>
+</body>
+</html>
