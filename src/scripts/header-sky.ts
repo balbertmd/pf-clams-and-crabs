@@ -32,7 +32,7 @@ function initSky() {
     const renderChip = () => {
       const time = new Intl.DateTimeFormat("en-US", { timeZone: tz, hour: "numeric", minute: "2-digit" }).format(new Date());
       wx.innerHTML = (temp != null ? `<span class="wx-temp">${temp}°</span><span class="wx-sep">·</span>` : "") + `<span class="wx-time">${time}</span>`;
-      wx.title = "Cape May, NJ" + (label ? " · " + label : "") + (temp != null ? " · " + temp + "°F" : "");
+      wx.title = "Cape May County, NJ" + (label ? " · " + label : "") + (temp != null ? " · " + temp + "°F" : "");
     };
     renderChip();
     setInterval(renderChip, 30000);

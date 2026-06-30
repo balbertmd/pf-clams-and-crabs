@@ -35,7 +35,7 @@ const faqs = [
 const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": faqs.map(([q, a]) => ({ "@type": "Question", "name": q, "acceptedAnswer": { "@type": "Answer", "text": a } })) };
 ---
 <Base
-  title="PF Clams and Crabs — Fresh Cape May Clams & Live Jersey Blue Crab | Wildwood, NJ"
+  title="PF Clams and Crabs — Fresh Cape May County Clams & Live Jersey Blue Crab | Wildwood, NJ"
   description="Farm-raised Cape May County hard clams and hand-caught live Jersey blue crab, sold straight from the dock in Wildwood, NJ. Call or text Paul to reserve — no middleman."
   structuredData={[bizLd, faqLd]}
   skipTarget="#catch"
@@ -52,7 +52,7 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
       <div class="hero-text">
         <span class="eyebrow">Wildwood, New Jersey</span>
         <h1>Fresh off the dock. No middleman.</h1>
-        <p class="hero-sub">Farm-raised Cape May clams and live Jersey blue crab — grown and caught by Paul himself, sold straight to you off the Wildwood dock.</p>
+        <p class="hero-sub">Farm-raised Cape May County clams and live Jersey blue crab — grown and caught by Paul himself, sold straight to you off the Wildwood dock.</p>
         <div class="hero-cta">
           <a class="btn btn-primary" href={tel}>📞 Call {site.phone}</a>
           <a class="btn btn-ghost" href={sms}>💬 Text to reserve</a>
@@ -66,7 +66,7 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
   <div class="trustbar">
     <div class="container">
       <ul>
-        <li><span class="check">✓</span> Farm-raised Cape May clams</li>
+        <li><span class="check">✓</span> Farm-raised Cape May County clams</li>
         <li><span class="check">✓</span> Live Jersey blue crab</li>
         <li><span class="check">✓</span> Straight from the dock</li>
         <li><span class="check">✓</span> 20 years on the water</li>
@@ -81,7 +81,7 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
       <p class="section-lead">Grown and caught in Cape May County waters and pulled fresh. What's in changes with the season and the tides.</p>
       <div class="catch-grid">
         <article class="catch-card">
-          <div class="ph clam"><img src="/images/dock/dock-06.jpg" alt="Fresh-pulled Cape May hard clams" loading="lazy" /><div class="season">Year-round</div></div>
+          <div class="ph clam"><img src="/images/dock/dock-06.jpg" alt="Fresh-pulled Cape May County hard clams" loading="lazy" /><div class="season">Year-round</div></div>
           <div class="bd">
             <h3>Hard Clams</h3>
             <p>Farm-raised in our home waters — littlenecks for the raw bar, topnecks for the pot. Clean, briny, grit-free. By the dozen, half-bushel, or bushel.</p>
@@ -149,7 +149,10 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
           <p class="address"><strong>{site.name}</strong><br /><span>{site.address}</span></p>
           <p><strong>Phone:</strong> <a href={tel}>{site.phone}</a><br /><strong>Email:</strong> <a href={"mailto:" + site.email}>{site.email}</a></p>
           <a class="btn btn-primary" href={mapsDir} target="_blank" rel="noopener">Get Directions</a>
-          <div class="location-map" style="margin-top:18px;"><iframe title="Map to PF Clams and Crabs" loading="eager" referrerpolicy="no-referrer-when-downgrade" allowfullscreen src={mapEmbed}></iframe></div>
+          <div class="location-map" style="margin-top:18px;">
+            <iframe title="Map to PF Clams and Crabs" loading="eager" referrerpolicy="no-referrer-when-downgrade" allowfullscreen src={mapEmbed}></iframe>
+            <a class="map-link" href={mapsDir} target="_blank" rel="noopener">📍 Open in Google Maps</a>
+          </div>
         </div>
       </div>
     </div>
