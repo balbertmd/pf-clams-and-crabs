@@ -29,6 +29,7 @@ const settings = defineCollection({
     address: z.string(),
     heroImage: z.string().nullable().optional(),
     welcomeImage: z.string().nullable().optional(),
+    reviewsWidgetId: z.string().optional().default(''),
     hours: z.array(z.object({ day: z.string(), time: z.string() })),
     socials: z.array(z.object({ name: z.string(), brand: z.string(), icon: z.string(), url: z.string(), show: z.boolean() })),
   }).passthrough(),

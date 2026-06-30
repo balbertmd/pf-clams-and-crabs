@@ -6,6 +6,7 @@
   "address": "1044 W Rio Grande Ave, Wildwood, NJ 08260",
   "heroImage": null,
   "welcomeImage": null,
+  "reviewsWidgetId": "",
   "hours": [
     { "day": "Monday", "time": "Call for today's hours" },
     { "day": "Tuesday", "time": "Call for today's hours" },
@@ -20,15 +21,15 @@
       "name": "Google",
       "brand": "google",
       "icon": "fa-brands fa-google",
-      "url": "https://www.google.com/maps/search/?api=1&query=PF%20Clams%20and%20Crabs%201044%20W%20Rio%20Grande%20Ave%20Wildwood%20NJ%2008260",
-      "show": false
+      "url": "https://share.google/Arr0J0cr89zlux3Ta",
+      "show": true
     },
     {
       "name": "Facebook",
       "brand": "facebook",
       "icon": "fa-brands fa-facebook-f",
-      "url": "https://www.facebook.com/CHECK",
-      "show": false
+      "url": "https://www.facebook.com/profile.php?id=61590822496968",
+      "show": true
     },
     {
       "name": "Instagram",

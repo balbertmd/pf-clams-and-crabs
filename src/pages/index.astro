@@ -10,6 +10,9 @@ const galleryItems = (await getCollection('galleryPhotos'))
   .filter((g) => (g.data.section ?? 'home') === 'home')
   .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0))
   .map((g) => ({ file: g.data.image ?? null, caption: g.data.caption ?? '' }));
+
+const reviewsWidgetId = site.reviewsWidgetId ?? '';
+const googleUrl = (site.socials ?? []).find((s) => s.brand === 'google')?.url ?? 'https://www.google.com';
 const tel = "tel:" + site.phoneHref;
 const sms = "sms:" + site.phoneHref;
 
@@ -158,12 +161,21 @@ const faqLd = { "@context": "https://schema.org", "@type": "FAQPage", "mainEntit
     </div>
   </section>
 
-  <section class="section tband">
-    <div class="container">
-      <div class="qm">&ldquo;</div>
-      <blockquote>Freshest clams on the island — we grabbed a bushel for the cookout and they were gone before the burgers.</blockquote>
-      <span class="stamp">A Wildwood Regular</span>
-      <p style="font-size:.75rem;color:var(--text-muted);margin-top:12px;">Sample — Paul's real customer quotes drop in here.</p>
+  <section class="section" id="reviews">
+    <div class="container" style="text-align:center;">
+      <span class="eyebrow">What folks say</span>
+      <h2 style="margin-bottom:.4em;">Reviews from Google</h2>
+      {reviewsWidgetId ? (
+        <>
+          <div id={`featurable-${reviewsWidgetId}`} data-featurable-async></div>
+          <script is:inline src="https://cdn.featurable.com/widget/v2/embed.js" defer charset="UTF-8"></script>
+        </>
+      ) : (
+        <>
+          <p class="section-lead" style="margin:0 auto 22px;">Picked up clams or crabs from Paul? A quick Google review helps your neighbors find the dock.</p>
+          <a class="btn btn-primary" href={googleUrl} target="_blank" rel="noopener">★ Review us on Google</a>
+        </>
+      )}
     </div>
   </section>
 
