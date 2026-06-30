@@ -288,8 +288,8 @@ code { background: var(--surface); padding: 1px 6px; border-radius: 4px; font-si
 /* ===== Logo in header ===== */
 .header-inner { padding-top: 10px; padding-bottom: 10px; }
 .brand { padding: 0; }
-.brand-logo { height: 84px; width: auto; display: block; }
-@media (max-width: 560px) { .brand-logo { height: 58px; } }
+.brand-logo { height: 99px; width: auto; display: block; }
+@media (max-width: 560px) { .brand-logo { height: 68px; } }
 
 /* ===== Weather + local time chip (header) ===== */
 .wx { display: inline-flex; align-items: center; gap: 7px; font-size: .85rem; font-weight: 700; color: var(--text-muted); white-space: nowrap; padding: 4px 0; }
@@ -372,6 +372,7 @@ code { background: var(--surface); padding: 1px 6px; border-radius: 4px; font-si
 .faq summary::after { content: "+"; color: var(--accent); font-weight: 900; font-size: 1.3rem; line-height: 1; }
 .faq[open] summary::after { content: "–"; }
 .faq p { margin: 0 0 16px; color: var(--text-body); }
+.faq:not([open]) > p { display: none; }   /* safety: closed accordions never leak the answer */
 
 /* ===== VIN decode row ===== */
 .vin-row { align-items: end; }
@@ -475,11 +476,18 @@ h1, h2, h3, h4, .brandfont { font-family: 'Fraunces', Georgia, 'Times New Roman'
 /* rope divider between sections */
 .rope { height: 8px; background: repeating-linear-gradient(90deg, var(--gold) 0 11px, #8a6b3f 11px 14px); }
 
-/* hero "Fresh · Cape May · Local" seal */
-.hero-seal { position: absolute; top: 24px; right: 24px; z-index: 4; width: 104px; height: 104px; border-radius: 50%;
-  border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; text-align: center;
-  font-size: 11px; line-height: 1.4; letter-spacing: .12em; text-transform: uppercase; font-weight: 700;
-  color: #e7c986; background: rgba(14,39,56,.34); }
+/* hero "Fresh · Cape May · Local" seal — crisp rope stamp */
+.hero-seal { position: absolute; top: 26px; right: 26px; z-index: 6; width: 124px; height: 124px; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 3px;
+  text-transform: uppercase; font-weight: 800; color: #fbeec4;
+  background: radial-gradient(circle at 50% 38%, #1a4156 0%, #102e40 70%, #0c2434 100%);
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 5px rgba(12,36,52,.55), 0 0 0 6px rgba(194,160,79,.55), 0 10px 24px rgba(0,0,0,.45);
+  text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+.hero-seal .seal-top { font-family: 'Fraunces', Georgia, serif; font-size: 19px; line-height: 1; letter-spacing: .04em; color: var(--gold-bright); }
+.hero-seal .seal-mid { font-size: 9.5px; line-height: 1.1; letter-spacing: .1em; max-width: 92px; }
+.hero-seal .seal-bot { font-size: 9.5px; line-height: 1; letter-spacing: .16em; color: var(--gold-bright); }
+.hero-seal .seal-rule { width: 60px; height: 1px; background: rgba(194,160,79,.6); margin: 1px 0; }
 @media (max-width: 860px) { .hero-seal { display: none; } }
 
 /* navy story band (Meet Paul) */
@@ -508,9 +516,13 @@ h1, h2, h3, h4, .brandfont { font-family: 'Fraunces', Georgia, 'Times New Roman'
 .catch-card h3 { color: var(--accent-dark); margin: 0 0 6px; }
 [data-theme="dark"] .catch-card h3 { color: #f3e9d4; }
 .catch-card p { color: var(--text-body); font-size: .96rem; margin: 0 0 14px; }
-.catch-card .price { display: inline-block; font-weight: 700; color: var(--gold-deep); background: #f2e6c6;
-  border: 1px solid #e2cf9c; padding: 6px 13px; border-radius: 6px; font-size: .9rem; }
-[data-theme="dark"] .catch-card .price { background: #2a3f1f00; background: rgba(216,184,99,.14); color: var(--gold-bright); border-color: #4a5a2f; }
+/* availability label — a status TAG, deliberately not a button */
+.catch-card .price { display: inline-flex; align-items: center; gap: 7px; font-weight: 800; font-size: .74rem;
+  text-transform: uppercase; letter-spacing: .1em; color: var(--gold-deep);
+  background: none; border: none; padding: 4px 0 0; }
+.catch-card .price::before { content: ""; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold); box-shadow: 0 0 0 3px rgba(194,160,79,.22); flex: none; }
+[data-theme="dark"] .catch-card .price { color: var(--gold-bright); }
 @media (max-width: 860px) { .catch-grid { grid-template-columns: 1fr; } }
 
 /* testimonial band */
@@ -530,3 +542,16 @@ h1, h2, h3, h4, .brandfont { font-family: 'Fraunces', Georgia, 'Times New Roman'
 .hero .eyebrow { color: var(--gold-bright); }
 .hero .btn-ghost { color: #f3e9d4; border-color: rgba(243,233,212,.5); }
 .hero .btn-ghost:hover { border-color: #fff; color: #fff; }
+
+/* ===== Real photos in product cards + Meet-Paul video ===== */
+.catch-card .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.catch-card .ph.crab { align-items: center; justify-content: center; }
+.catch-card .ph.crab .ph-soon { position: static; left: auto; bottom: auto; text-align: center;
+  color: rgba(243,233,212,.95); font-style: normal; font-weight: 700; letter-spacing: .04em; font-size: .95rem; line-height: 1.5; }
+.catch-card .ph.crab .ph-soon small { display: inline-block; margin-top: 3px; font-weight: 500; font-style: italic;
+  color: rgba(243,233,212,.7); font-size: .74rem; letter-spacing: 0; }
+
+.welcome-media .dock-video { display: block; width: 100%; max-width: 330px; margin: 0 auto; aspect-ratio: 9 / 16;
+  max-height: 560px; object-fit: cover; border-radius: var(--radius); background: #0a1b26;
+  box-shadow: 0 16px 44px rgba(0,0,0,.45); border: 1px solid #2a4456; }
+.story-band .dock-video-cap { text-align: center; color: var(--gold-bright); font-size: .82rem; margin-top: 10px; letter-spacing: .04em; }
