@@ -574,12 +574,8 @@ h1, h2, h3, h4, .brandfont { font-family: 'Fraunces', Georgia, 'Times New Roman'
 /* ============================================================
    Photo hero + clean transitions (redesign 2026-06-30)
    ============================================================ */
-/* retire the dynamic sky — use real photography */
-.hero.has-sky .sky, .hero.has-sky .sky-canvas, .hero.has-sky .sky-scrim,
-.site-header.has-sky .sky, .site-header.has-sky .sky-canvas, .site-header.has-sky .sky-scrim { display: none !important; }
-
-/* solid navy header (Cherrystone-style), no seam into the photo hero */
-.site-header, .site-header.has-sky { background: #0c2333; }
+/* keep the live weather/time-of-day sky on the HEADER bar; retire it only on the hero (photo takes over) */
+.hero.has-sky .sky, .hero.has-sky .sky-canvas, .hero.has-sky .sky-scrim { display: none !important; }
 
 /* full-bleed photo hero with dark overlay so the headline stays readable */
 .hero, .hero.has-sky {
