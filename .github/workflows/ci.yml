@@ -1,0 +1,33 @@
+name: CI - build validator + image guard
+# Astro-site variant (Nick's / PF). Validates the site compiles, guards against oversized
+# CMS image uploads (repo originals), and scans for hardcoded secrets.
+# NOTE: image check runs FIRST so a red X names the exact oversized file before anything else.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Image-size guard (repo originals <= 800KB)
+        run: node scripts/compress-heavy-images.mjs --check
+
+      - name: Install
+        run: npm ci
+
+      - name: Astro build (compiles or fails)
+        run: npm run build
+
+      - name: Secret guard (no hardcoded secrets)
+        run: |
+          if grep -rIn -E '(API_KEY|_SECRET|PASSWORD)[[:space:]]*[=:][[:space:]]*["'"'"'][A-Za-z0-9_\-]{12,}' --include='*.mjs' --include='*.ts' --include='*.astro' --include='*.toml' src scripts 2>/dev/null; then
+            echo "possible hardcoded secret - keep secrets in Cloudflare"; exit 1
+          fi
+          echo "no hardcoded secrets"

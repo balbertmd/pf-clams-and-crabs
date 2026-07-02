@@ -1,11 +1,11 @@
 {
-  "name": "nicks-repair-shop",
+  "name": "pf-clams-and-crabs",
   "type": "module",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/compress-heavy-images.mjs && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
