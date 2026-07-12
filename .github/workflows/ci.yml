@@ -1,26 +1,47 @@
-name: CI - build validator + image guard
-# Astro-site variant (Nick's / PF). Validates the site compiles, guards against oversized
-# CMS image uploads (repo originals), and scans for hardcoded secrets.
-# NOTE: image check runs FIRST so a red X names the exact oversized file before anything else.
+name: CI - image auto-fix + build validator
+# Astro-site variant (Nick's / PF). Two layers of image protection so a CMS/editor upload can
+# never ship heavy OR bloat the repo, with ZERO burden on the editor (Keystatic is untouched):
+#   Layer 1 (served output): `npm run build` runs compress-heavy-images.mjs before astro build,
+#           so whatever gets deployed is always capped. (fail-open — never blocks a deploy.)
+#   Layer 2 (repo hygiene, THIS workflow): on push, auto-compress any oversized raster and
+#           commit the fixed original back, so the repo self-heals instead of just going red.
+# Also validates the site compiles and scans for hardcoded secrets.
 on:
   push:
   pull_request:
   workflow_dispatch:
 
 jobs:
-  validate:
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Image-size guard (repo originals <= 800KB)
-        run: node scripts/compress-heavy-images.mjs --check
-
       - name: Install
         run: npm ci
+
+      - name: Auto-compress oversized images in place (repo self-heals)
+        if: github.event_name == 'push'
+        run: node scripts/compress-heavy-images.mjs
+
+      - name: Commit compressed originals back (only if something changed)
+        if: github.event_name == 'push'
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "image-guard-bot"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "chore(images): auto-compress oversized upload [skip ci]"
+            git push
+            echo "self-healed: compressed originals committed back"
+          else
+            echo "no oversized images - nothing to commit"
+          fi
 
       - name: Astro build (compiles or fails)
         run: npm run build
