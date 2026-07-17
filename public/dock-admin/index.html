@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Update the dock — PF Clams and Crabs</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Caveat:wght@700&display=swap" rel="stylesheet" />
+<style>
+  :root{--navy:#0c2333;--gold:#c2a04f;--goldb:#e6c879;--cream:#f4ecd8;--ink:#0c2333}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Newsreader',Georgia,serif;background:#081a26;color:#e9dcb6;line-height:1.5;padding:18px;min-height:100vh}
+  .wrap{max-width:520px;margin:0 auto}
+  h1{font-family:'Fraunces',serif;font-weight:900;color:#f1e4be;font-size:1.7rem;margin-bottom:2px}
+  .sub{color:#8fa6ad;font-size:.95rem;margin-bottom:18px}
+  .card{background:#f4ecd8;border-radius:14px;padding:18px;border:1px solid #e2d5b0;margin-bottom:16px}
+  label{display:block;color:#0c2333;font-size:.78rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;margin-bottom:6px}
+  input[type=text],input[type=password]{width:100%;padding:12px 13px;border:1px solid #cdbf98;border-radius:9px;background:#fffdf6;font-family:inherit;font-size:1rem;color:#0c2333}
+  .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .row .nm{flex:1;min-width:110px;font-weight:600;color:#0c2333;font-size:1.02rem}
+  .tgl{border:none;border-radius:999px;padding:8px 15px;font-family:inherit;font-weight:700;cursor:pointer;color:#fff}
+  .px{flex:2;min-width:130px}
+  .save{width:100%;background:linear-gradient(135deg,#e6c879,#c2a04f);color:#201a06;border:none;border-radius:999px;padding:15px;font-family:inherit;font-weight:800;font-size:1.08rem;cursor:pointer;margin-top:4px}
+  .msg{text-align:center;padding:10px;border-radius:9px;margin-top:12px;font-weight:600;display:none}
+  .board{background:linear-gradient(160deg,#16415a,#0c2333);border:1.5px solid rgba(194,160,79,.55);border-radius:16px;padding:20px;text-align:center}
+  .board h3{font-family:'Caveat',cursive;color:#e6c879;font-size:1.6rem;font-weight:700;margin-bottom:6px}
+  .board ul{list-style:none;text-align:left;margin:6px 0 0}
+  .board li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .eyebrow{font-family:'Caveat',cursive;color:#a6842f;font-size:1.25rem;line-height:1}
+  .hd{font-family:'Fraunces',serif;font-weight:900;color:#0c2333;font-size:1.35rem;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Update the dock</h1>
+  <div class="sub">Flip what's in, set today's price, tap save. Customers see it right away.</div>
+
+  <div class="card" id="gate">
+    <label for="pw">Password</label>
+    <input type="password" id="pw" placeholder="Enter the dock password" autocomplete="current-password" />
+    <div class="sub" style="color:#5c6570;margin:8px 0 0">Ask Albert for the password. It's saved only for this visit.</div>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">Paul's board</div>
+    <div class="hd">What's in today</div>
+    <div id="ed"></div>
+    <div style="margin-top:14px">
+      <label for="note">Today's note (optional)</label>
+      <input type="text" id="note" placeholder="e.g. Fresh dug this morning — get 'em early." />
+    </div>
+    <div class="row" style="margin-top:12px">
+      <label style="margin:0">Hours</label>
+      <button class="tgl" id="openBtn" type="button">Open today</button>
+      <input type="text" id="hours" class="px" placeholder="e.g. 8am – 2pm at the dock" />
+    </div>
+    <button class="save" id="save" type="button">Save — update the site</button>
+    <div class="msg" id="msg"></div>
+  </div>
+
+  <div class="sub" style="text-align:center">Preview — what customers see</div>
+  <div class="board" id="board" style="margin-top:8px"></div>
+</div>
+
+<script>
+(function(){
+  var API='/api/today';
+  var st={items:[],note:'',open:true,hours:''};
+  var ed=document.getElementById('ed'),board=document.getElementById('board'),msg=document.getElementById('msg');
+  function seg(on){return on?'#1d9e75':'#b23b36'}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function drawEd(){
+    ed.innerHTML='';
+    st.items.forEach(function(it,i){
+      var r=document.createElement('div');r.className='row';
+      r.innerHTML='<div class="nm">'+esc(it.name)+'</div>'+
+        '<button class="tgl" data-t="'+i+'" type="button" style="background:'+seg(it.on)+'">'+(it.on?'In':'Out')+'</button>'+
+        '<input type="text" class="px" data-p="'+i+'" value="'+esc(it.price)+'" style="background:'+(it.on?'#fffdf6':'#ece4cf')+'">';
+      ed.appendChild(r);
+    });
+    ed.querySelectorAll('[data-t]').forEach(function(b){b.onclick=function(){var i=+b.dataset.t;st.items[i].on=!st.items[i].on;drawEd();drawBoard()}});
+    ed.querySelectorAll('[data-p]').forEach(function(x){x.oninput=function(){st.items[+x.dataset.p].price=x.value;drawBoard()}});
+  }
+  function drawBoard(){
+    var rows=st.items.map(function(it){
+      var dot='<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+(it.on?'#5dcaa5':'#6b7d84')+';margin-right:9px"></span>';
+      var right=it.on?'<span style="color:#e6c879;font-family:Caveat,cursive;font-size:1.15rem">'+esc(it.price)+'</span>':'<span style="color:#8fa6ad;font-size:.85rem;font-style:italic">not in today</span>';
+      return '<li><span style="color:'+(it.on?'#efe4cb':'#8fa6ad')+';font-size:1.04rem">'+dot+esc(it.name)+'</span>'+right+'</li>';
+    }).join('');
+    var note=st.note?'<div style="color:#e6c879;font-family:Caveat,cursive;font-size:1.3rem;margin:2px 0 10px">'+esc(st.note)+'</div>':'';
+    var hrs=st.open?'<div style="color:#cfe0e4;font-size:.92rem;margin-top:14px"><b style="color:#e6c879">Open today</b> · '+esc(st.hours)+'</div>':'<div style="color:#e0a5a2;font-size:.95rem;margin-top:14px;font-weight:600">Closed today</div>';
+    board.innerHTML='<h3>Today at the dock</h3>'+note+'<ul>'+rows+'</ul>'+hrs;
+  }
+  var ob=document.getElementById('openBtn');
+  function paintOpen(){ob.style.background=st.open?'#1d9e75':'#b23b36';ob.textContent=st.open?'Open today':'Closed today'}
+  ob.onclick=function(){st.open=!st.open;paintOpen();drawBoard()};
+  document.getElementById('note').oninput=function(){st.note=this.value;drawBoard()};
+  document.getElementById('hours').oninput=function(){st.hours=this.value;drawBoard()};
+  function showMsg(t,ok){msg.style.display='block';msg.textContent=t;msg.style.background=ok?'#d6efe2':'#f6d9d7';msg.style.color=ok?'#0f6e56':'#8a2b26'}
+  function load(){
+    fetch(API,{cache:'no-store'}).then(function(r){return r.json()}).then(function(d){
+      st.items=(d.items||[]).map(function(it){return{key:it.key,name:it.name,on:!!it.on,price:it.price||''}});
+      st.note=d.note||'';st.open=d.open!==false;st.hours=d.hours||'';
+      document.getElementById('note').value=st.note;document.getElementById('hours').value=st.hours;
+      paintOpen();drawEd();drawBoard();
+    }).catch(function(){showMsg("Couldn't load current board — check your connection.",false)});
+  }
+  document.getElementById('save').onclick=function(){
+    var pw=document.getElementById('pw').value;
+    if(!pw){showMsg('Enter the password first.',false);return}
+    var btn=this;var o=btn.textContent;btn.textContent='Saving…';
+    fetch(API,{method:'POST',headers:{'content-type':'application/json','x-pf-key':pw},body:JSON.stringify(st)})
+      .then(function(r){return r.json().then(function(j){return{s:r.status,j:j}})})
+      .then(function(res){
+        btn.textContent=o;
+        if(res.s===200){showMsg('Saved. The site is updated.',true)}
+        else if(res.s===401){showMsg('Wrong password. Try again.',false)}
+        else if(res.s===503){showMsg('Editor not set up yet — ask Albert to set the password.',false)}
+        else{showMsg('Something went wrong. Try again.',false)}
+      }).catch(function(){btn.textContent=o;showMsg('Network error — try again.',false)});
+  };
+  load();
+})();
+</script>
+</body>
+</html>

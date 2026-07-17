@@ -1,0 +1,7 @@
+{
+  "name": "pf-clams-and-crabs",
+  "pages_build_output_dir": "./dist",
+  "kv_namespaces": [
+    { "binding": "PF_STATE", "id": "528fe6de0e0b49fc86fee74cc0591a67" }
+  ]
+}

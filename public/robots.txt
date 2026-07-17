@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /dock-admin/
 
-Sitemap: https://nicksrepairshop.com/sitemap-index.xml
+Sitemap: https://pf-clams-and-crabs.pages.dev/sitemap.xml

@@ -1,4 +1,4 @@
-// Technical settings kept OUT of the CMS so a content editor (Nick) can't
+// Technical settings kept OUT of the CMS so a content editor (Paul) can't
 // accidentally break the weather header, brand color, or booking form.
 // Change these in code only.
 export const SITE = {
