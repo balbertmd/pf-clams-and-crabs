@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
-Disallow: /dock-admin/
+Disallow: /keystatic
+Disallow: /dock-admin
 
-Sitemap: https://pf-clams-and-crabs.pages.dev/sitemap.xml
+Sitemap: https://pfclams.com/sitemap.xml

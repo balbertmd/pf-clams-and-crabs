@@ -24,7 +24,7 @@ const {
 } = Astro.props;
 
 // Origin comes from astro.config `site` — swap that one value when the real domain is live.
-const origin = Astro.site ?? new URL('https://pfclamsandcrabs.com');
+const origin = Astro.site ?? new URL('https://pfclams.com');
 const canonical = canonicalProp ?? new URL(Astro.url.pathname, origin).href;
 
 const site = await getSite();
