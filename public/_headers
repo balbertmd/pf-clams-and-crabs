@@ -4,3 +4,29 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+
+# ── Caching (added 2026-07-27) ────────────────────────────────────────────────
+# WHY: every deploy left the APEX serving stale HTML while *.pages.dev was already
+# correct — the Cloudflare zone was edge-caching the document. It produced three
+# false "it didn't ship" readings in one session and a manual Purge Everything each
+# time. Revalidating HTML kills that for good; images stay cached hard because their
+# filenames are stable and they are never edited in place.
+
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/404.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+/robots.txt
+  Cache-Control: public, max-age=300, must-revalidate
+
+/sitemap.xml
+  Cache-Control: public, max-age=300, must-revalidate
+
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
