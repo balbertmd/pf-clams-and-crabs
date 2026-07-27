@@ -486,14 +486,17 @@ window.PF_REVIEWS_WIDGET_ID = "";
   const base='/images/gallery/';
   const bento=document.getElementById('bento'),lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg'),lbCap=document.getElementById('lbCap');
   let cur=0;
-  let photos=imgs.map(function(a){return{file:base+a[0]+'.jpg',cap:a[1],cls:a[2]||''}});
+  // Grid tiles render ~350px tall, so they get 700px thumbs (~1.2MB for all 16); the lightbox
+  // still opens the full 1400px file. Before this split the homepage pulled 4.6MB of gallery
+  // images on first paint — brutal on the phone hotspot most of Paul's customers are on.
+  let photos=imgs.map(function(a){return{file:base+a[0]+'.jpg',thumb:base+'thumbs/'+a[0]+'.jpg',cap:a[1],cls:a[2]||''}});
   function clsFor(i){return i===0?'b-wide':i===1?'b-tall':i===6?'b-wide':((photos[i]&&photos[i].cls)||'')}
   function show(i){cur=(i+photos.length)%photos.length;lbimg.src=photos[cur].file;lbimg.alt=photos[cur].cap;lbCap.textContent=photos[cur].cap}
   function openLb(i){show(i);lb.classList.add('on')}
   function closeLb(){lb.classList.remove('on')}
-  function renderBento(){bento.innerHTML='';photos.forEach(function(p,i){var a=document.createElement('a');a.className=clsFor(i);var im=new Image();im.src=p.file;im.alt=p.cap;im.onload=function(){im.classList.add('loaded')};a.appendChild(im);var cap=document.createElement('div');cap.className='cap';cap.textContent=p.cap;a.appendChild(cap);a.onclick=function(e){e.preventDefault();openLb(i)};bento.appendChild(a)})}
+  function renderBento(){bento.innerHTML='';photos.forEach(function(p,i){var a=document.createElement('a');a.className=clsFor(i);var im=new Image();im.loading='lazy';im.decoding='async';im.src=(p.thumb||p.file);im.alt=p.cap;im.onload=function(){im.classList.add('loaded')};im.onerror=function(){if(p.thumb&&im.src.indexOf('/thumbs/')>-1){im.src=p.file}};a.appendChild(im);var cap=document.createElement('div');cap.className='cap';cap.textContent=p.cap;a.appendChild(cap);a.onclick=function(e){e.preventDefault();openLb(i)};bento.appendChild(a)})}
   renderBento();
-  fetch('/gallery.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(d){if(Array.isArray(d)&&d.length){photos=d.map(function(x){return{file:x.file,cap:x.caption||''}});cur=0;renderBento()}}).catch(function(){});
+  fetch('/gallery.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null}).then(function(d){if(Array.isArray(d)&&d.length){photos=d.map(function(x){return{file:x.file,thumb:(x.file||'').replace('/images/gallery/','/images/gallery/thumbs/'),cap:x.caption||''}});cur=0;renderBento()}}).catch(function(){});
   document.getElementById('lbClose').onclick=closeLb;
   document.getElementById('lbPrev').onclick=e=>{e.stopPropagation();show(cur-1)};
   document.getElementById('lbNext').onclick=e=>{e.stopPropagation();show(cur+1)};
