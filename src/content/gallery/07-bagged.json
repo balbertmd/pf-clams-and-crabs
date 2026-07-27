@@ -2,5 +2,6 @@
   "image": "/images/gallery/dock-17.jpg",
   "caption": "Bagged for pickup",
   "section": "home",
-  "order": 10
+  "order": 10,
+  "cls": ""
 }

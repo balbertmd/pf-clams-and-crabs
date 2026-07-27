@@ -2,5 +2,6 @@
   "image": "/images/gallery/dock-05.jpg",
   "caption": "Graded by hand",
   "section": "home",
-  "order": 11
+  "order": 11,
+  "cls": ""
 }

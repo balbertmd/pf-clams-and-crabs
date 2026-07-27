@@ -2,5 +2,6 @@
   "image": "/images/gallery/pf-cull-house-grading.jpg",
   "caption": "Graded and counted in the cull house",
   "section": "home",
-  "order": 14
+  "order": 14,
+  "cls": "b-wide"
 }

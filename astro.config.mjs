@@ -12,6 +12,16 @@ export default defineConfig({
   // The raw static homepage is public/index.html and does NOT read this value; its canonical is
   // swapped by _marketing/go-live-swap.ps1 at go-live.
   site: 'https://pfclams.com',
-  integrations: [react(), keystatic(), sitemap({ filter: (page) => !page.includes('/keystatic') })],
+  // Keystatic (and the React runtime it needs) are DEV-ONLY. Fable audit 2026-07-27 (H3):
+  // pfclams.com/keystatic served a live admin shell + a 2.77 MB React bundle on a client domain,
+  // and it is what caused the `MessageChannel is not defined` deploy wall. Editing happens locally
+  // or through the repo; production ships no admin surface.
+  // Set PF_KEYSTATIC=1 to build with the editor (local content editing only).
+  integrations: [
+    ...(process.env.PF_KEYSTATIC === '1' || process.env.NODE_ENV !== 'production'
+      ? [react(), keystatic()]
+      : []),
+    sitemap({ filter: (page) => !page.includes('/keystatic') }),
+  ],
   adapter: cloudflare({ imageService: 'compile' }),
 });

@@ -2,5 +2,6 @@
   "image": "/images/gallery/dock-19.jpg",
   "caption": "Littlenecks off the boat",
   "section": "home",
-  "order": 6
+  "order": 6,
+  "cls": ""
 }

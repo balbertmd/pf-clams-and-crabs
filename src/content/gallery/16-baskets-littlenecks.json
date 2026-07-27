@@ -2,5 +2,6 @@
   "image": "/images/gallery/pf-baskets-of-littlenecks.jpg",
   "caption": "Baskets of littlenecks on the dock",
   "section": "home",
-  "order": 16
+  "order": 16,
+  "cls": ""
 }

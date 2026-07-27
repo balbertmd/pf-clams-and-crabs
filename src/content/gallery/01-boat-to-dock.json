@@ -2,5 +2,6 @@
   "image": "/images/gallery/dock-12.jpg",
   "caption": "Boat in — straight to the dock",
   "section": "home",
-  "order": 3
+  "order": 3,
+  "cls": ""
 }

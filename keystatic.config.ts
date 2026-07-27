@@ -63,6 +63,16 @@ export default config({
           options: [{ label: 'Home page gallery', value: 'home' }],
           defaultValue: 'home',
         }),
+        cls: fields.select({
+          label: 'Tile size',
+          description: 'Bento span in the homepage gallery.',
+          options: [
+            { label: 'Normal', value: '' },
+            { label: 'Wide (2 columns)', value: 'b-wide' },
+            { label: 'Tall (2 rows)', value: 'b-tall' },
+          ],
+          defaultValue: '',
+        }),
         order: fields.integer({ label: 'Sort order', defaultValue: 0, description: 'Lower numbers show first.' }),
       },
     }),

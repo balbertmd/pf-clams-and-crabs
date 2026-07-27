@@ -42,6 +42,9 @@ const galleryPhotos = defineCollection({
     image: z.string().nullable().optional(),
     section: z.string().default('home'),
     order: z.number().default(0),
+    // Bento span for the homepage gallery: '' | 'b-wide' | 'b-tall'. Must stay in step with
+    // keystatic.config.ts or the editor rejects the item.
+    cls: z.string().optional().default(''),
   }).passthrough(),
 });
 

@@ -2,5 +2,6 @@
   "image": "/images/gallery/pf-chowder-clams-closeup.jpg",
   "caption": "Big chowder clams, shell to shell",
   "section": "home",
-  "order": 12
+  "order": 12,
+  "cls": ""
 }
