@@ -6,7 +6,11 @@ const DEFAULT = {
   items: [
     { key: 'little', name: 'Littlenecks', on: true, price: 'year-round' },
     { key: 'top', name: 'Topnecks', on: true, price: 'year-round' },
-    { key: 'crab', name: 'Live blue crabs', on: true, price: 'in season' },
+    // Crabs default OFF. Fable audit 2026-07-27 (C1): with PF_STATE unbound this default was the
+    // ONLY thing customers saw, so the board asserted live crabs in stock every day of the season
+    // while Paul might have none — and the editor that would correct it was never wired. Clams are
+    // year-round and safe to assert; crabs are seasonal and must be claimed, never assumed.
+    { key: 'crab', name: 'Live blue crabs', on: false, price: 'call to check' },
   ],
   note: '',
   open: true,
@@ -42,7 +46,13 @@ export const GET: APIRoute = async ({ locals }) => {
   try {
     if (kv) {
       const raw = await kv.get('today');
-      if (raw) data = JSON.parse(raw);
+      // shape() on READ too. Fable audit (M8): a malformed or emptied KV value used to be served
+      // raw; the homepage ignores payloads with no items, so the board would silently pin the
+      // static fallback forever while the editor reported "Saved."
+      if (raw) {
+        const parsed = shape(JSON.parse(raw));
+        data = parsed.items.length ? parsed : DEFAULT;
+      }
     }
   } catch {
     data = DEFAULT;
@@ -52,12 +62,40 @@ export const GET: APIRoute = async ({ locals }) => {
   });
 };
 
+// Constant-time compare — no early exit on first differing byte. Fable audit (H1).
+function safeEqual(a: string, b: string) {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+const FAIL_LIMIT = 10; // per IP per hour
+const FAIL_TTL = 3600;
+
 export const POST: APIRoute = async ({ request, locals }) => {
   const secret = secretOf(locals);
-  if (!secret) return json({ error: 'not_configured' }, 503);
-  const given = request.headers.get('x-pf-key') || '';
-  if (given !== secret) return json({ error: 'unauthorized' }, 401);
   const kv = kvOf(locals);
+
+  // Fable audit (H1): the write path had no rate limit, a short-circuiting compare, and a
+  // 503-vs-401 oracle telling an attacker whether the path was armed. Workers serve thousands of
+  // guesses a second and a hit rewrites the first block customers read. Every wrong key now looks
+  // identical from outside — 401, whether or not the secret is even configured.
+  const ip = request.headers.get('cf-connecting-ip') || 'unknown';
+  const rlKey = `fail:${ip}`;
+  if (kv) {
+    const fails = Number((await kv.get(rlKey)) || 0);
+    if (fails >= FAIL_LIMIT) return json({ error: 'unauthorized' }, 429);
+  }
+
+  const given = request.headers.get('x-pf-key') || '';
+  if (!secret || !safeEqual(given, secret)) {
+    if (kv) {
+      const fails = Number((await kv.get(rlKey)) || 0) + 1;
+      await kv.put(rlKey, String(fails), { expirationTtl: FAIL_TTL });
+    }
+    return json({ error: 'unauthorized' }, 401);
+  }
   if (!kv) return json({ error: 'no_store' }, 503);
   let body: any;
   try {

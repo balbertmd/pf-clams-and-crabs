@@ -13,6 +13,12 @@ const ROOT = 'public';
 const LIMIT_KB = 800;
 const MAX_W = 1920;
 const EXTS = new Set(['.jpg', '.jpeg', '.png']);
+// Brand marks are EXEMPT. Fable audit 2026-07-27 (C3): this guard was rewriting every brand/GBP
+// PNG as palette (mode P). That is the documented cause of the repeated Google Business Profile
+// logo rejections — the "flat RGB" file built to rule out colour mode was served as PALETTE,
+// so the hypothesis was never actually tested. See public/images/brand/BRAND-LOGO.md.
+const EXEMPT = ['public/images/brand/', 'public/images/gbp/'];
+const isExempt = (f) => EXEMPT.some((d) => f.split('\\').join('/').startsWith(d));
 
 async function* walk(dir) {
   for (const e of await readdir(dir, { withFileTypes: true })) {
@@ -26,6 +32,7 @@ try {
   const found = [];
   for await (const f of walk(ROOT)) {
     if (!EXTS.has(extname(f).toLowerCase())) continue;
+    if (isExempt(f)) continue;
     const s = await stat(f);
     if (s.size > LIMIT_KB * 1024) found.push({ f, kb: Math.round(s.size / 1024) });
   }
@@ -46,7 +53,7 @@ try {
       const meta = await img.metadata();
       const pipe = (meta.width || 0) > MAX_W ? img.resize({ width: MAX_W }) : img;
       const buf = extname(x.f).toLowerCase() === '.png'
-        ? await pipe.png({ compressionLevel: 9, palette: true }).toBuffer()
+        ? await pipe.png({ compressionLevel: 9 }).toBuffer()
         : await pipe.jpeg({ quality: 78, mozjpeg: true }).toBuffer();
       if (buf.length < x.kb * 1024) {
         await writeFile(x.f, buf);
