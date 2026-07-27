@@ -281,6 +281,14 @@
 #reviews .btn-line{background:transparent;border:1px solid rgba(244,236,216,.34);color:inherit}
 #reviews .btn-line:hover{border-color:var(--gold)}
 #reviews .revnote{margin-top:1.5em;font-size:.86rem;opacity:.7}
+#reviews .revlive{margin-top:56px;padding-top:34px;border-top:1px solid rgba(244,236,216,.14)}
+#reviews .revlive-head{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+#reviews .revlive-head h3{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.35rem,3vw,1.9rem);font-weight:600;line-height:1.15}
+#reviews .revlive-rating{display:flex;align-items:center;gap:10px;font-size:.95rem}
+#reviews .revlive-rating[hidden]{display:none}
+#reviews .revlive-stars{color:#e8b64c;letter-spacing:.1em}
+#reviews .revlive-empty{display:flex;flex-direction:column;gap:6px;padding:30px 24px;border:1px dashed rgba(244,236,216,.22);border-radius:16px;background:rgba(244,236,216,.035);text-align:center}
+#reviews .revlive-empty span{font-size:.9rem;opacity:.72;max-width:52ch;margin:0 auto}
 </style>
 <section class="block" id="reviews"><div class="wrap">
   <div class="revwrap reveal">
@@ -294,7 +302,91 @@
     </div>
     <p class="revnote">Reviews go straight to our Google Business Profile — we read every one.</p>
   </div>
+
+  <!-- ── LIVE GOOGLE REVIEWS (Featurable, same pattern as nicksrepairshop.com) ──
+       ONE-LINE SWITCH: paste the widget UUID into PF_REVIEWS_WIDGET_ID below and it goes live.
+       Get it at featurable.com -> Widgets -> New (same account as Nick's) -> connect the
+       PF Clams and Crabs Google profile -> copy the id out of `featurable-<uuid>`.
+       Empty id = the honest placeholder renders instead. Never hardcode a rating or a count:
+       the summary line and the JSON-LD aggregateRating are BOTH written from what the widget
+       actually reports, and stay hidden until it reports something. -->
+  <div class="revlive reveal">
+    <div class="revlive-head">
+      <div><span class="eyebrow">Straight from Google</span><h3>Reviews From Google</h3></div>
+      <div class="revlive-rating" id="reviews-rating" hidden><span class="revlive-stars">★★★★★</span><span id="reviews-summary"></span></div>
+    </div>
+    <div id="pf-reviews-mount"></div>
+    <div class="revlive-empty" id="pf-reviews-empty">
+      <strong>Live Google reviews appear here.</strong>
+      <span>The profile is brand new — the first review Paul gets shows up on this spot automatically.</span>
+    </div>
+  </div>
 </div></section>
+<script>window.PF_REVIEWS_WIDGET_ID = "";</script>
+<script>
+/* Featurable loader + summary sync. Mirrors the nicksrepairshop.com implementation:
+   the widget renders inside a SHADOW DOM, so box.textContent is empty — read from inside
+   the shadow root. Bounded poll (400ms x 30, stops on first successful read), no persistent
+   loop and no network calls of our own. If the widget never renders, nothing is claimed. */
+(function () {
+  var ID = (window.PF_REVIEWS_WIDGET_ID || '').trim();
+  var mount = document.getElementById('pf-reviews-mount');
+  var empty = document.getElementById('pf-reviews-empty');
+  if (!mount) return;
+  if (!ID) return;                       // no widget yet -> placeholder stays, nothing loads
+
+  var boxId = 'featurable-' + ID;
+  var box = document.createElement('div');
+  box.id = boxId;
+  box.setAttribute('data-featurable-async', '');
+  mount.appendChild(box);
+  var s = document.createElement('script');
+  s.src = 'https://cdn.featurable.com/widget/v2/embed.js';
+  s.defer = true; s.charset = 'UTF-8';
+  document.body.appendChild(s);
+
+  function widgetText() {
+    var b = document.getElementById(boxId);
+    if (!b) return '';
+    var hosts = b.querySelectorAll('*');
+    for (var i = 0; i < hosts.length; i++) {
+      var sr = hosts[i].shadowRoot;
+      if (sr) { var el = sr.querySelector('div') || sr; return el.innerText || sr.textContent || ''; }
+    }
+    return b.innerText || b.textContent || '';
+  }
+
+  function apply() {
+    var text = (widgetText() || '').replace(/\s+/g, ' ');
+    var m = text.match(/(\d[\d,]*)\s+(?:google\s+)?reviews?/i);
+    if (!m) return false;
+    var count = parseInt(m[1].replace(/,/g, ''), 10);
+    if (!count) return false;
+    var r = text.match(/\b([0-5]\.\d)\b/);
+    var rating = r ? r[1] : '5.0';
+
+    var sum = document.getElementById('reviews-summary');
+    var wrap = document.getElementById('reviews-rating');
+    if (sum && wrap) { sum.textContent = rating + ' · ' + count + ' Google reviews'; wrap.hidden = false; }
+    if (empty) empty.style.display = 'none';
+
+    try {                                  // keep the SEO schema honest and in sync
+      var tags = document.querySelectorAll('script[type="application/ld+json"]');
+      for (var i = 0; i < tags.length; i++) {
+        var data = JSON.parse(tags[i].textContent);
+        if (!data || data['@type'] !== 'LocalBusiness') continue;
+        data.aggregateRating = { '@type': 'AggregateRating', ratingValue: rating, reviewCount: count };
+        tags[i].textContent = JSON.stringify(data);
+        break;
+      }
+    } catch (e) { /* schema stays as served */ }
+    return true;
+  }
+
+  var tries = 0;
+  var t = setInterval(function () { if (apply() || ++tries > 30) clearInterval(t); }, 400);
+})();
+</script>
 
 <section class="block section-cream" id="faq"><div class="wrap">
   <div class="reveal"><span class="eyebrow">Good to know</span><h2>Questions from the dock</h2><p class="lead">The stuff folks ask us most. Anything else, just call or text - we'd rather talk to you.</p></div>
