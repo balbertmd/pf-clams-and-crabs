@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pfclams.com/</loc>
-    <lastmod>2026-07-26</lastmod>
+    <lastmod>2026-07-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -16,39 +16,19 @@
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/pf-handful-littleneck-clams.jpg</image:loc>
-      <image:title>Littleneck clams straight out of the water</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://pfclams.com/images/gallery/pf-chowder-clams-closeup.jpg</image:loc>
-      <image:title>Big chowder clams, shell to shell</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://pfclams.com/images/gallery/pf-littlenecks-fresh-pulled.jpg</image:loc>
-      <image:title>Littlenecks pulled this morning</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://pfclams.com/images/gallery/pf-cull-house-grading.jpg</image:loc>
-      <image:title>Grading and counting in the cull house</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://pfclams.com/images/gallery/pf-bagged-for-pickup.jpg</image:loc>
-      <image:title>Bagged and tagged for dock pickup in Wildwood NJ</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://pfclams.com/images/gallery/pf-baskets-of-littlenecks.jpg</image:loc>
-      <image:title>Baskets of littlenecks on the dock</image:title>
+      <image:title>Littlenecks, straight out of the water</image:title>
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/dock-12.jpg</image:loc>
-      <image:title>Boat in - straight to the dock</image:title>
+      <image:title>Boat in — straight to the dock</image:title>
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/dock-06.jpg</image:loc>
-      <image:title>Fresh-pulled Cape May County hard clams</image:title>
+      <image:title>Fresh-pulled hard clams</image:title>
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/dock-02.jpg</image:loc>
-      <image:title>A morning's haul on the bay</image:title>
+      <image:title>A morning's haul</image:title>
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/dock-19.jpg</image:loc>
@@ -56,11 +36,11 @@
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/dock-00.jpg</image:loc>
-      <image:title>Out on the water at first light</image:title>
+      <image:title>Out at first light</image:title>
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/dock-08.jpg</image:loc>
-      <image:title>Sorting the day's catch</image:title>
+      <image:title>Sorting the catch</image:title>
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/dock-09.jpg</image:loc>
@@ -68,11 +48,31 @@
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/dock-17.jpg</image:loc>
-      <image:title>Bagged and ready for pickup</image:title>
+      <image:title>Bagged for pickup</image:title>
     </image:image>
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/dock-05.jpg</image:loc>
-      <image:title>Graded by hand, grit-free</image:title>
+      <image:title>Graded by hand</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pfclams.com/images/gallery/pf-chowder-clams-closeup.jpg</image:loc>
+      <image:title>Big chowder clams, shell to shell</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pfclams.com/images/gallery/pf-littlenecks-fresh-pulled.jpg</image:loc>
+      <image:title>Pulled this morning, still wet</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pfclams.com/images/gallery/pf-cull-house-grading.jpg</image:loc>
+      <image:title>Graded and counted in the cull house</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pfclams.com/images/gallery/pf-bagged-for-pickup.jpg</image:loc>
+      <image:title>Bagged and tagged for dock pickup</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pfclams.com/images/gallery/pf-baskets-of-littlenecks.jpg</image:loc>
+      <image:title>Baskets of littlenecks on the dock</image:title>
     </image:image>
   </url>
 </urlset>
