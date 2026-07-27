@@ -3,21 +3,8 @@ import { glob } from 'astro/loaders';
 
 const galleryItem = z.object({ file: z.string().nullable(), caption: z.string().default('') });
 
-const services = defineCollection({
-  loader: glob({ pattern: '*.json', base: './src/content/services' }),
-  schema: z.object({
-    title: z.string(),
-    metaTitle: z.string().optional(),
-    metaDescription: z.string().optional(),
-    duty: z.enum(['light', 'heavy']),
-    icon: z.string(),
-    order: z.number().default(0),
-    bullets: z.array(z.string()).default([]),
-    lead: z.string().optional(),
-    why: z.string().optional(),
-    handles: z.array(z.string()).default([]),
-  }),
-});
+// `services` and `guides` were fork leftovers from nicks-repair-shop — no PF page ever rendered
+// them and their content directories were empty. Removed 2026-07-27 (Fable audit H4).
 
 const settings = defineCollection({
   loader: glob({ pattern: 'site.json', base: './src/content/settings' }),
@@ -57,13 +44,4 @@ const videos = defineCollection({
   }).passthrough(),
 });
 
-const guides = defineCollection({
-  loader: glob({ pattern: '*.md', base: './src/content/guides' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string().default(''),
-    date: z.coerce.date().optional(),
-  }),
-});
-
-export const collections = { services, settings, galleryPhotos, videos, guides };
+export const collections = { settings, galleryPhotos, videos };

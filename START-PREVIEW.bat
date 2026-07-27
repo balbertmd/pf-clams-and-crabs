@@ -1,8 +1,8 @@
 @echo off
-title Nick's Repair Shop - Local Preview
+title PF Clams and Crabs - Local Preview
 cd /d "%~dp0"
 echo ============================================================
-echo   Nick's Repair Shop - starting the local preview
+echo   PF Clams and Crabs - starting the local preview
 echo ============================================================
 echo.
 echo Step 1 of 2: Installing files (first run can take 2-5 minutes)...

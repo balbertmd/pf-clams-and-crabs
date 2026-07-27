@@ -19,7 +19,7 @@ export default config({
       label: 'Site settings',
       path: 'src/content/settings/site',
       format: { data: 'json' },
-      previewUrl: 'https://pf-clams-and-crabs.pages.dev/',
+      previewUrl: 'https://pfclams.com/',
       schema: {
         name: fields.text({ label: 'Business name' }),
         phone: fields.text({ label: 'Phone (display)', description: 'e.g. (609) 305-3836' }),
@@ -54,7 +54,7 @@ export default config({
       slugField: 'caption',
       format: { data: 'json' },
       columns: ['caption', 'order'],
-      previewUrl: 'https://pf-clams-and-crabs.pages.dev/#gallery',
+      previewUrl: 'https://pfclams.com/#gallery',
       schema: {
         caption: fields.slug({ name: { label: 'Caption', description: 'Shown under the photo and used as the file name.' } }),
         image: fields.image({ label: 'Photo', directory: 'public/images/gallery', publicPath: '/images/gallery/' }),
@@ -82,7 +82,7 @@ export default config({
       slugField: 'title',
       format: { data: 'json' },
       columns: ['title', 'order'],
-      previewUrl: 'https://pf-clams-and-crabs.pages.dev/',
+      previewUrl: 'https://pfclams.com/',
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
         youtube: fields.text({ label: 'YouTube link or video ID', description: 'Paste the full YouTube URL (or just the 11-character video ID).' }),
