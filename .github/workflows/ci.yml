@@ -15,7 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read   # Fable audit H7: was `write` so a bot could push to main unattended.
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,26 +29,40 @@ jobs:
         if: github.event_name == 'push'
         run: node scripts/compress-heavy-images.mjs
 
-      - name: Commit compressed originals back (only if something changed)
+      # Fable audit (H7): the bot used to push straight to main on a PUBLIC client site with no
+      # branch protection and no human in the loop. It now reports instead of pushing. If a real
+      # oversized original lands, a human compresses it - the served build is already capped by
+      # the fail-open guard in `npm run build`, so nothing is urgent.
+      - name: Report oversized originals (no auto-push)
         if: github.event_name == 'push'
         run: |
           if [ -n "$(git status --porcelain)" ]; then
-            git config user.name "image-guard-bot"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add -A
-            git commit -m "chore(images): auto-compress oversized upload [skip ci]"
-            git push
-            echo "self-healed: compressed originals committed back"
+            echo "::warning::oversized repo originals were compressed locally by the guard - commit them yourself"
+            git --no-pager diff --stat
+            git checkout -- .
           else
-            echo "no oversized images - nothing to commit"
+            echo "no oversized images"
           fi
 
       - name: Astro build (compiles or fails)
         run: npm run build
 
+      # Fable audit 2026-07-27 (H7): the documented fail-loud --check mode was dead code that
+      # nothing ever invoked, so CI could not actually go red on an oversized repo original.
+      - name: Image guard - fail loud on PRs (check mode)
+        if: github.event_name == 'pull_request'
+        run: node scripts/compress-heavy-images.mjs --check
+
+      # Fable audit (H7): the old guard scanned only src/ and scripts/ for 4 extensions, so it
+      # never looked at public/index.html or public/dock-admin/index.html - where 100% of the
+      # homepage work happens, on a PUBLIC repo. Now scans the whole tree including HTML.
       - name: Secret guard (no hardcoded secrets)
         run: |
-          if grep -rIn -E '(API_KEY|_SECRET|PASSWORD)[[:space:]]*[=:][[:space:]]*["'"'"'][A-Za-z0-9_\-]{12,}' --include='*.mjs' --include='*.ts' --include='*.astro' --include='*.toml' src scripts 2>/dev/null; then
+          if grep -rIn -E '(API_KEY|_SECRET|PASSWORD|x-pf-key)[[:space:]]*[=:][[:space:]]*["'"'"'][A-Za-z0-9_\-]{12,}' \
+              --include='*.mjs' --include='*.ts' --include='*.js' --include='*.astro' --include='*.toml' \
+              --include='*.html' --include='*.json' --include='*.md' \
+              --exclude-dir=node_modules --exclude-dir=dist --exclude-dir=.git \
+              . 2>/dev/null; then
             echo "possible hardcoded secret - keep secrets in Cloudflare"; exit 1
           fi
           echo "no hardcoded secrets"
