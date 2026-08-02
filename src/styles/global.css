@@ -224,6 +224,9 @@ code { background: var(--surface); padding: 1px 6px; border-radius: 4px; font-si
 .social-link[data-brand="linkedin"]  i { background: #0A66C2; }
 .social-link[data-brand="google"] i { background: #fff; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
 .social-i--google svg { width: 64%; height: 64%; display: block; }
+/* Fable review 2026-08-02 (F5): brand glyphs are inline SVG now (no Font Awesome CDN). They pick
+   up the white the circle already sets via currentColor. */
+.social-i--glyph svg { width: 58%; height: 58%; display: block; }
 
 /* Big centered "Follow Us" section on the home page */
 .follow-section { text-align: center; }

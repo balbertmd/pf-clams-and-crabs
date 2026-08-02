@@ -1,6 +1,11 @@
 ---
-interface Props { brand: string; icon: string; }
-const { brand, icon } = Astro.props;
+// Inline SVG only. Fable review 2026-08-02 (F5): the non-Google branch rendered <i class={icon}>
+// with a Font Awesome class, and that single fallback was the entire reason the layout pulled the
+// full Font Awesome stylesheet from a CDN — on a page whose only job is to say "not found, here is
+// the phone number". Every brand this site actually shows is drawn below. The coloured circle and
+// sizing still come from global.css (.social-link i), so the look is unchanged.
+interface Props { brand: string; icon?: string; }
+const { brand } = Astro.props;
 ---
 {brand === 'google' ? (
   <i class="social-i--google" aria-hidden="true">
@@ -11,6 +16,22 @@ const { brand, icon } = Astro.props;
       <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
     </svg>
   </i>
-) : (
-  <i class={icon} aria-hidden="true"></i>
-)}
+) : brand === 'facebook' ? (
+  <i class="social-i--glyph" aria-hidden="true">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Facebook">
+      <path fill="currentColor" d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5h1.7V3.9c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.2V10H7.5v3h2.9v8z"/>
+    </svg>
+  </i>
+) : brand === 'youtube' ? (
+  <i class="social-i--glyph" aria-hidden="true">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="YouTube">
+      <path fill="currentColor" d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.3 5 12 5 12 5s-6.3 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.7 19 12 19 12 19s6.3 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8M10 15V9l5.2 3z"/>
+    </svg>
+  </i>
+) : brand === 'instagram' ? (
+  <i class="social-i--glyph" aria-hidden="true">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Instagram">
+      <path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1m0 5.8a4 4 0 1 0 0 8 4 4 0 0 0 0-8m0 6.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2m5.1-6.7a.94.94 0 1 1-1.9 0 .94.94 0 0 1 1.9 0"/>
+    </svg>
+  </i>
+) : null}

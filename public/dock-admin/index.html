@@ -115,6 +115,7 @@
         btn.textContent=o;
         if(res.s===200){showMsg('Saved. The site is updated.',true)}
         else if(res.s===401){showMsg('Wrong password. Try again.',false)}
+        else if(res.s===429){showMsg('Too many wrong tries. Wait an hour, then try again.',false)}
         else if(res.s===503){showMsg('Editor not set up yet — ask Albert to set the password.',false)}
         else{showMsg('Something went wrong. Try again.',false)}
       }).catch(function(){btn.textContent=o;showMsg('Network error — try again.',false)});

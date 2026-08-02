@@ -8,6 +8,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I buy clams and crabs straight from you?","acceptedAnswer":{"@type":"Answer","text":"You bet. Paul sells straight from the dock - no middleman, no markup. Call or text (609) 305-3836 to reserve today's catch for pickup."}},{"@type":"Question","name":"How much are they?","acceptedAnswer":{"@type":"Answer","text":"Prices move with the season and the tides, so we don't post a set number. Call or text for today's price - you'll always get the fresh number."}},{"@type":"Question","name":"Are the blue crabs running right now?","acceptedAnswer":{"@type":"Answer","text":"Blue crabs are seasonal - Paul runs his own pots, so they're in when they're running. Give us a shout to see what's in today."}},{"@type":"Question","name":"Where and when do I pick up?","acceptedAnswer":{"@type":"Answer","text":"Right at the dock: 1044 W Rio Grande Ave, Wildwood, NJ. Hours are seasonal and we set them by the day, so call ahead before you make the trip."}},{"@type":"Question","name":"Do you ship or deliver?","acceptedAnswer":{"@type":"Answer","text":"Not this year - it's local dock pickup only for 2026, cash or card. Shipping may come down the road."}},{"@type":"Question","name":"What clams do you have?","acceptedAnswer":{"@type":"Answer","text":"Farm-raised hard clams - littlenecks for the raw bar, topnecks for the pot - year-round. Live Jersey blue crabs when they're in season."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preload" as="image" href="/images/dock-clip-poster.jpg" fetchpriority="high" />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Caveat:wght@600;700&display=swap" rel="stylesheet" />
 <style>
   :root{--navy:#081a26;--navy2:#0c2333;--steel:#13344a;--cream:#f4ecd8;--gold:#c2a04f;--gold-bright:#e6c879;--ink:#0b1822;--white:#fdf8ec;--maxw:1180px}
@@ -335,6 +336,8 @@
     <a href="/images/gallery/pf-cull-house-grading.jpg" class="b-wide" aria-label="Open photo: Graded and counted in the cull house"><img src="/images/gallery/thumbs/pf-cull-house-grading.jpg" alt="Graded and counted in the cull house" loading="lazy" decoding="async"><div class="cap">Graded and counted in the cull house</div></a>
     <a href="/images/gallery/pf-bagged-for-pickup.jpg" class="b-tall" aria-label="Open photo: Bagged and tagged for dock pickup"><img src="/images/gallery/thumbs/pf-bagged-for-pickup.jpg" alt="Bagged and tagged for dock pickup" loading="lazy" decoding="async"><div class="cap">Bagged and tagged for dock pickup</div></a>
     <a href="/images/gallery/pf-baskets-of-littlenecks.jpg" aria-label="Open photo: Baskets of littlenecks on the dock"><img src="/images/gallery/thumbs/pf-baskets-of-littlenecks.jpg" alt="Baskets of littlenecks on the dock" loading="lazy" decoding="async"><div class="cap">Baskets of littlenecks on the dock</div></a>
+    <a href="/images/gallery/pf-storefront.jpg" class="b-wide" aria-label="Open photo: The blue shack on W Rio Grande Ave — look for the clams on the wall"><img src="/images/gallery/thumbs/pf-storefront.jpg" alt="The blue shack on W Rio Grande Ave — look for the clams on the wall" loading="lazy" decoding="async"><div class="cap">The blue shack on W Rio Grande Ave — look for the clams on the wall</div></a>
+    <a href="/images/gallery/pf-storefront-window.jpg" class="b-tall" aria-label="Open photo: Walk up to the window — this is where you order"><img src="/images/gallery/thumbs/pf-storefront-window.jpg" alt="Walk up to the window — this is where you order" loading="lazy" decoding="async"><div class="cap">Walk up to the window — this is where you order</div></a>
   </div>
 </div></section>
 
@@ -355,7 +358,12 @@
 #reviews .revlive-head h3{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.35rem,3vw,1.9rem);font-weight:600;line-height:1.15}
 #reviews .revlive-rating{display:flex;align-items:center;gap:10px;font-size:.95rem}
 #reviews .revlive-rating[hidden]{display:none}
-#reviews .revlive-stars{color:#e8b64c;letter-spacing:.1em}
+/* Fable review 2026-08-02 (F3): the row shipped a literal ★★★★★, so a 4.6 average would have
+   drawn five full stars next to the honest "4.6". The gold layer is clipped to the real fraction
+   at runtime, so the glyphs can never claim more than the parsed number. */
+#reviews .revlive-stars{position:relative;display:inline-block;letter-spacing:.1em;white-space:nowrap}
+#reviews .revlive-stars-track{color:rgba(244,236,216,.26)}
+#reviews .revlive-stars-fill{position:absolute;left:0;top:0;width:0;overflow:hidden;color:#e8b64c}
 #reviews .revlive-empty{display:flex;flex-direction:column;gap:6px;padding:30px 24px;border:1px dashed rgba(244,236,216,.22);border-radius:16px;background:rgba(244,236,216,.035);text-align:center}
 #reviews .revlive-empty span{font-size:.9rem;opacity:.72;max-width:52ch;margin:0 auto}
 </style>
@@ -376,7 +384,7 @@
   <div class="revlive reveal">
     <div class="revlive-head">
       <div><span class="eyebrow">Straight from Google</span><h3>Reviews From Google</h3></div>
-      <div class="revlive-rating" id="reviews-rating" hidden><span class="revlive-stars">★★★★★</span><span id="reviews-summary"></span></div>
+      <div class="revlive-rating" id="reviews-rating" hidden><span class="revlive-stars" aria-hidden="true"><span class="revlive-stars-track">★★★★★</span><span class="revlive-stars-fill" id="reviews-stars-fill">★★★★★</span></span><span id="reviews-summary"></span></div>
     </div>
     <div id="pf-reviews-mount"></div>
     <div class="revlive-empty" id="pf-reviews-empty">
@@ -435,19 +443,21 @@ window.PF_REVIEWS_WIDGET_ID = "";
 
     var sum = document.getElementById('reviews-summary');
     var wrap = document.getElementById('reviews-rating');
+    var fill = document.getElementById('reviews-stars-fill');
+    // F3: draw the stars from the parsed number, never five-by-default.
+    if (fill) fill.style.width = (Math.max(0, Math.min(5, parseFloat(rating))) / 5 * 100) + '%';
     if (sum && wrap) { sum.textContent = rating + ' · ' + count + ' Google reviews'; wrap.hidden = false; }
     if (empty) empty.style.display = 'none';
 
-    try {                                  // keep the SEO schema honest and in sync
-      var tags = document.querySelectorAll('script[type="application/ld+json"]');
-      for (var i = 0; i < tags.length; i++) {
-        var data = JSON.parse(tags[i].textContent);
-        if (!data || data['@type'] !== 'LocalBusiness') continue;
-        data.aggregateRating = { '@type': 'AggregateRating', ratingValue: rating, reviewCount: count };
-        tags[i].textContent = JSON.stringify(data);
-        break;
-      }
-    } catch (e) { /* schema stays as served */ }
+    /* Fable review 2026-08-02 (F2): a runtime aggregateRating writer used to sit here under a
+       comment promising to "keep the SEO schema honest and in sync". It had been DEAD since the
+       head block became ["LocalBusiness","Store"] — it compared that array to the string
+       'LocalBusiness', so the branch never ran. Deleted rather than repaired, deliberately:
+       Google already carries this rating on the Business Profile, self-serving review markup on
+       one's own business is against the structured-data guidelines, and a writer that injects a
+       rating into schema is the exact mechanism that made the old 5.0 fabrication possible.
+       What ships stays measurable: the visible summary above is parsed off the widget, and the
+       schema asserts nothing about ratings at all. */
     return true;
   }
 
@@ -478,7 +488,7 @@ window.PF_REVIEWS_WIDGET_ID = "";
 
 <footer><div class="wrap"><div class="fg">
   <div><h4>PF Clams and Crabs</h4><p>1044 W Rio Grande Ave, Wildwood, NJ 08260<br><a href="tel:+16093053836">(609) 305-3836</a> · pfclams@gmail.com</p><div class="soc">
-      <a href="https://share.google/Arr0J0cr89zlux3Ta" target="_blank" rel="noopener" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.5 5C9.5 43.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C39 35.2 44 30 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg></a>
+      <a href="https://www.google.com/maps/place/?q=place_id:ChIJJTYVViCpwIkRnd6-dp47Yto" target="_blank" rel="noopener" aria-label="Google"><svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-7.9l-6.5 5C9.5 43.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C39 35.2 44 30 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg></a>
       <a href="https://www.facebook.com/profile.php?id=61590822496968" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="11" fill="#1877F2"/><path fill="#fff" d="M29.7 24.6l.8-5.4h-5.2v-3.5c0-1.5.7-2.9 3-2.9h2.4V8.2s-2.2-.4-4.2-.4c-4.3 0-7.1 2.6-7.1 7.3v4.1h-4.7v5.4h4.7V38h5.9V24.6z"/></svg></a>
       <a href="https://www.youtube.com/@PFClamsandCrabs-n3g" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 48 48"><rect x="3" y="11" width="42" height="26" rx="7" fill="#FF0000"/><path fill="#fff" d="M20 17.5l13 6.5-13 6.5z"/></svg></a>
     </div></div>

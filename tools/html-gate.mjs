@@ -233,6 +233,30 @@ function checkFile(file) {
     }
   }
 
+  // galleryDrift — the static bento tiles must list the same photos as the runtime imgs array.
+  // Fable review 2026-08-02 (F4): tiles 17 and 18 (the storefront wayfinding shots — the two
+  // captions that tell a lost tourist WHICH building on the dock is Paul's) were added to the JS
+  // array and to the gallery collection but never to the static markup. The page looked right in
+  // a browser because the script rebuilds the grid on load; a crawler, and anyone with JS off,
+  // saw sixteen. Two lists of the same photos in one file will drift again — so it is checked.
+  if (/id="bento"/.test(src)) {
+    const arr = src.match(/const imgs\s*=\s*\[([\s\S]*?)\];/);
+    const bento = src.match(/id="bento"[\s\S]*?<\/div>\s*<\/div><\/section>/);
+    if (arr && bento) {
+      const inArray = [...arr[1].matchAll(/\['([^']+)'/g)].map((m) => m[1]);
+      const inMarkup = [...bento[0].matchAll(/href="\/images\/gallery\/([^"]+)\.jpg"/g)].map((m) => m[1]);
+      const missing = inArray.filter((f) => !inMarkup.includes(f));
+      const extra = inMarkup.filter((f) => !inArray.includes(f));
+      if (missing.length || extra.length) {
+        defects.push(
+          `galleryDrift: static gallery tiles (${inMarkup.length}) vs runtime imgs array (${inArray.length})` +
+          (missing.length ? ` | in the array, not in the markup: ${JSON.stringify(missing)}` : '') +
+          (extra.length ? ` | in the markup, not in the array: ${JSON.stringify(extra)}` : '')
+        );
+      }
+    }
+  }
+
   // faqDrift — FAQPage schema must match the FAQ a human reads, question for question.
   const faqLd = ldDocs.find((d) => d.data && d.data['@type'] === 'FAQPage');
   const visible = [...src.matchAll(/<div class="faq"><h3>([\s\S]*?)<\/h3>/gi)].map((m) => norm(m[1]));

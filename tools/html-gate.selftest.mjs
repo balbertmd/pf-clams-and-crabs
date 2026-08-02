@@ -48,6 +48,12 @@ function mutate(dir, rel, find, repl) {
 
 const CASES = [
   {
+    name: 'galleryDrift — a gallery photo in the script but not in the static markup',
+    expect: 'galleryDrift',
+    why: '2026-08-02: the two storefront wayfinding tiles were in the imgs array and the collection but never in the static HTML, so crawlers and no-JS visitors saw 16 of 18 photos and missed both "which building is Paul\'s" captions.',
+    break: (d) => mutate(d, HOME, 'href="/images/gallery/dock-12.jpg"', 'href="/images/gallery/dock-99.jpg"'),
+  },
+  {
     name: 'deadAnchor — a nav link to an id the homepage does not have',
     expect: 'deadAnchor',
     why: '2026-08-01: the 404 nav linked /#about and /#contact. No error, no 404 - visitors were just silently dumped at the top of the homepage.',
