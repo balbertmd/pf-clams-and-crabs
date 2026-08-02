@@ -44,6 +44,17 @@ jobs:
             echo "no oversized images"
           fi
 
+      # Fable audit M10. Self-test FIRST: a gate that has not been proven to go red is decoration,
+      # and a green no-op is exactly how the myfarm drill shipped. 12 mutations, each modelled on a
+      # defect that actually reached this site - including the two found live on 2026-08-01
+      # (deadAnchor: the 404 nav pointing at ids the homepage never had; hiddenContent: a CSS
+      # source-order collision that left every block below the hero invisible on prod).
+      - name: HTML gate - self-test (prove the gate still catches real defects)
+        run: node tools/html-gate.selftest.mjs
+
+      - name: HTML gate - scan shipped documents
+        run: node tools/html-gate.mjs
+
       - name: Astro build (compiles or fails)
         run: npm run build
 

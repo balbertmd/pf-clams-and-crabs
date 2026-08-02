@@ -11,11 +11,13 @@ const tel = "tel:" + site.phoneHref;
     <a href="/" class="brand"><img class="brand-logo" src="/images/logo.png" alt={site.name} /></a>
     <a class="header-phone" href={tel}>📞 {site.phone}</a>
     <nav class="nav" id="site-nav">
-      <a href="/#catch">What We've Got</a>
-      <a href="/#about">Meet Paul</a>
-      <a href="/#hours">Hours &amp; Pickup</a>
-      <a href="/#faq">FAQ</a>
-      <a href="/#contact">Contact</a>
+      {/* Mirrors the homepage nav EXACTLY (labels and anchors). public/index.html is the front door
+          and the only page that owns these ids; /#about and /#contact never existed there, so the
+          404's "Meet Paul" and "Contact" silently dumped visitors at the top of the homepage. */}
+      <a href="/#catch">The Catch</a>
+      <a href="/#paul">Meet Paul</a>
+      <a href="/#gallery">The Dock</a>
+      <a href="/#hours">Find Us</a>
       <div class="nav-follow">
         <span class="nav-follow-label">Follow Us</span>
         <div class="nav-follow-links">
