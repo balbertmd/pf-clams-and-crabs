@@ -225,6 +225,31 @@
   .faq p{font-size:1.03rem;color:#45525d;max-width:66ch}
   .faq p a{color:var(--gold);font-weight:700;border-bottom:1px solid rgba(194,160,79,.55)}
   .faq p a:hover{color:var(--navy)}
+
+  /* ── TAP TARGETS ── LAST IN THE SHEET ON PURPOSE.
+     Measured on a real iPhone 13 Pro profile (not guessed): 15 controls rendered under 44px —
+     header phone 133x24, nav toggle 46x40, ten footer links 16px tall, three social icons 34x34.
+     44px is Google's minimum and a scored mobile signal; Paul's customers also tap these with wet
+     hands on a dock.
+     WHY AT THE BOTTOM: a media query adds NO specificity. Written earlier in the sheet, the plain
+     `.navtoggle{height:40px}` rule further down would win on source order and this block would be
+     dead — the exact defect class the hiddenContent gate check was added for today. Same trap, and
+     it caught me while writing the fix for it. Anything appended after this must not re-target
+     these selectors.
+     Scoped to `pointer: coarse` so the desktop layout is untouched. */
+  @media (pointer: coarse) {
+    header .hcall{display:inline-flex;align-items:center;min-height:44px;padding:0 6px}
+    .navtoggle{width:46px;height:46px}
+    footer p a,footer li a,.fcol p a,.fcol li a{display:inline-block;min-height:44px;line-height:44px}
+    /* the two that survived a footer-scoped rule: the phone link inside an FAQ answer (327x43 —
+       one pixel short) and the one in the hours card (117x16). Target the ACTION, not the section,
+       so any tel:/sms: link added later is covered by default. .btn and .hcall are excluded because
+       they carry their own padding and are already over 44. */
+    a[href^="tel:"]:not(.btn):not(.hcall),a[href^="sms:"]:not(.btn):not(.hcall){
+      display:inline-block;min-height:44px;line-height:44px}
+    .soc a,.socials a,.social-link{min-width:44px;min-height:44px;display:inline-flex;
+      align-items:center;justify-content:center}
+  }
 </style>
 </head>
 <body>
@@ -243,7 +268,11 @@
 </header>
 
 <section class="hero" id="top">
-  <video autoplay muted loop playsinline preload="none" poster="/images/dock-clip-poster.jpg"><source src="/videos/dock-clip-web.mp4" type="video/mp4"></video>
+  <!-- src is deferred to JS on purpose: `autoplay` overrides preload="none", so the browser pulls
+       the clip regardless. With the src attached only when the connection can afford it, a
+       Save-Data / 2g phone gets the poster and NOTHING else, and a no-JS visitor also just gets the
+       poster - which is a finished-looking hero either way. -->
+  <video id="herovid" autoplay muted loop playsinline preload="none" poster="/images/dock-clip-poster.jpg" data-src="/videos/dock-clip-web.mp4"></video>
   <div class="glow"></div><div class="scrim"></div>
   <div class="inner"><div class="wrap">
     <div class="eye">Wildwood · The Jersey Shore</div>
@@ -505,6 +534,17 @@ window.PF_REVIEWS_WIDGET_ID = "";
      invisible even though JS is alive — a background/throttled tab freezes the transition, and any
      later script error would do the same. Content must never depend on an animation completing.
      Force every block visible after 2.5s, and again whenever the tab becomes visible. */
+  /* Hero video: attach the src only when the connection can afford 1.4 MB. Save-Data or a 2g/slow-2g
+     effectiveType gets the poster and no download at all. Everyone else is unchanged. */
+  (function(){
+    var hv=document.getElementById('herovid'); if(!hv||!hv.dataset.src) return;
+    var c=navigator.connection||{};
+    if(c.saveData||/(^|-)2g$/.test(c.effectiveType||'')) return;   // poster only
+    var s=document.createElement('source');
+    s.src=hv.dataset.src; s.type='video/mp4';
+    hv.appendChild(s); hv.load();
+    var p=hv.play(); if(p&&p.catch) p.catch(function(){});
+  })();
   /* Story-section video wallpaper. Never loads until the section is near the viewport (preload="none"
      + play on intersect), pauses the moment it leaves so a phone is not decoding video off-screen,
      and never runs on reduced-motion or Save-Data. The .pbg photo stays underneath as the fallback,
