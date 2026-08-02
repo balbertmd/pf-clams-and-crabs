@@ -344,8 +344,8 @@
 window.PF_REVIEWS_WIDGET_ID = "";
 </script>
 <script>
-/* Featurable loader + summary sync. Mirrors the nicksrepairshop.com implementation:
-   the widget renders inside a SHADOW DOM, so box.textContent is empty — read from inside
+/* Reviews loader + summary sync. The widget renders inside a
+   SHADOW DOM, so box.textContent is empty — read from inside
    the shadow root. Bounded poll (400ms x 30, stops on first successful read), no persistent
    loop and no network calls of our own. If the widget never renders, nothing is claimed. */
 (function () {
