@@ -28,6 +28,10 @@
      a single null deref (or JS off entirely) and products, gallery, FAQ and the address never
      appeared. The page now shows itself by default and only animates when the script is alive. */
   .js-on .reveal{opacity:0;transform:translateY(40px) scale(.99)}
+  /* MUST come after `.js-on .reveal`. Both selectors are specificity 0-2-0, so the later one wins —
+     without this line `.reveal.in` never beats `.js-on .reveal` and EVERY revealed block stays at
+     opacity 0 forever with JS enabled. That shipped as a blank page below the hero. */
+  .js-on .reveal.in{opacity:1;transform:none}
   html:not(.js-on) .reveal{opacity:1;transform:none;transition:none}
 
   /* scroll progress */
@@ -483,6 +487,14 @@ window.PF_REVIEWS_WIDGET_ID = "";
   addEventListener('scroll',onScroll,{passive:true});onScroll();
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  /* FAILSAFE: `.js-on .reveal` starts at opacity:0, so if the observer never fires the copy is
+     invisible even though JS is alive — a background/throttled tab freezes the transition, and any
+     later script error would do the same. Content must never depend on an animation completing.
+     Force every block visible after 2.5s, and again whenever the tab becomes visible. */
+  const revealAll=()=>{try{document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in'))}catch(_){}};
+  setTimeout(revealAll,2500);
+  addEventListener('pageshow',()=>setTimeout(revealAll,1200));
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(revealAll,1200)});
   // layered hero wave — paused when offscreen, skipped on reduced-motion
   const wB=document.getElementById('wv-back'),wM=document.getElementById('wv-mid'),wC=document.getElementById('wv-crest');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;let t=0,wActive=false;
