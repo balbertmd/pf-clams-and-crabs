@@ -1,0 +1,17 @@
+# Fable review 2026-08-02 (F9). Without this, every Linux-side checkout of this repo — CI, a
+# fresh clone, the Cowork device VM — reports all ~120 text files as modified, because they were
+# committed with CRLF while core.autocrlf hides it on the authoring PC. That phantom diff is not
+# cosmetic: it is what made an 08-02 session run git against the tree and strand a .git/index.lock.
+# A real change should be the only thing that ever shows up in git status.
+* text=auto eol=lf
+
+# Binary — never touched, never diffed as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.mp4 binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
