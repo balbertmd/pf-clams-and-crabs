@@ -7,3 +7,6 @@ dist/
 
 # staging area for files pulled out of the served tree (Albert deletes)
 _to_delete/
+
+# media intake staging - processed files move to .done-*, nothing here ships
+_media-in/

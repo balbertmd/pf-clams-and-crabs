@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://pfclams.com/</loc>
-    <lastmod>2026-07-27</lastmod>
+    <lastmod>2026-08-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -73,6 +73,14 @@
     <image:image>
       <image:loc>https://pfclams.com/images/gallery/pf-baskets-of-littlenecks.jpg</image:loc>
       <image:title>Baskets of littlenecks on the dock</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pfclams.com/images/gallery/pf-storefront.jpg</image:loc>
+      <image:title>The blue shack on W Rio Grande Ave - look for the clams on the wall</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://pfclams.com/images/gallery/pf-storefront-window.jpg</image:loc>
+      <image:title>Walk up to the window - this is where you order</image:title>
     </image:image>
   </url>
 </urlset>
