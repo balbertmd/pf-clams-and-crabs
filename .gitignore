@@ -4,3 +4,6 @@ dist/
 .wrangler/
 .env
 .dev.vars
+
+# staging area for files pulled out of the served tree (Albert deletes)
+_to_delete/

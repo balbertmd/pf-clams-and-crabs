@@ -229,7 +229,7 @@
 </header>
 
 <section class="hero" id="top">
-  <video autoplay muted loop playsinline preload="none" poster="/images/dock-clip-poster.jpg"><source src="/videos/dock-clip.mp4" type="video/mp4"></video>
+  <video autoplay muted loop playsinline preload="none" poster="/images/dock-clip-poster.jpg"><source src="/videos/pf-rinse-loop.mp4" type="video/mp4"></video>
   <div class="glow"></div><div class="scrim"></div>
   <div class="inner"><div class="wrap">
     <div class="eye">Wildwood · The Jersey Shore</div>
@@ -502,7 +502,7 @@ window.PF_REVIEWS_WIDGET_ID = "";
   function wave(){if(!wActive)return;t+=.018;wB.setAttribute('d',P(54,13,1.3,.8,true));wM.setAttribute('d',P(66,16,0,1,true));wC.setAttribute('d',P(66,16,0,1,false));requestAnimationFrame(wave)}
   if(!reduce){new IntersectionObserver(es=>{const vis=es[0].isIntersecting;if(vis&&!wActive){wActive=true;wave()}else if(!vis){wActive=false}}).observe(document.querySelector('.hero'))}
   // bento + browsable lightbox
-  const imgs=[['pf-boat-loaded-with-baskets','A boat-load of clams, straight off the beds','b-wide'],['pf-handful-littleneck-clams','Littlenecks, straight out of the water','b-tall'],['dock-12','Boat in — straight to the dock',''],['dock-06','Fresh-pulled hard clams','b-tall'],['dock-02',"A morning's haul",''],['dock-19','Littlenecks off the boat',''],['dock-00','Out at first light',''],['dock-08','Sorting the catch',''],['dock-09','In the cull house','b-wide'],['dock-17','Bagged for pickup',''],['dock-05','Graded by hand',''],['pf-chowder-clams-closeup','Big chowder clams, shell to shell',''],['pf-littlenecks-fresh-pulled','Pulled this morning, still wet',''],['pf-cull-house-grading','Graded and counted in the cull house','b-wide'],['pf-bagged-for-pickup','Bagged and tagged for dock pickup','b-tall'],['pf-baskets-of-littlenecks','Baskets of littlenecks on the dock','']];
+  const imgs=[['pf-boat-loaded-with-baskets','A boat-load of clams, straight off the beds','b-wide'],['pf-handful-littleneck-clams','Littlenecks, straight out of the water','b-tall'],['dock-12','Boat in — straight to the dock',''],['dock-06','Fresh-pulled hard clams','b-tall'],['dock-02',"A morning's haul",''],['dock-19','Littlenecks off the boat',''],['dock-00','Out at first light',''],['dock-08','Sorting the catch',''],['dock-09','In the cull house','b-wide'],['dock-17','Bagged for pickup',''],['dock-05','Graded by hand',''],['pf-chowder-clams-closeup','Big chowder clams, shell to shell',''],['pf-littlenecks-fresh-pulled','Pulled this morning, still wet',''],['pf-cull-house-grading','Graded and counted in the cull house','b-wide'],['pf-bagged-for-pickup','Bagged and tagged for dock pickup','b-tall'],['pf-baskets-of-littlenecks','Baskets of littlenecks on the dock',''],['pf-storefront','The blue shack on W Rio Grande Ave — look for the clams on the wall','b-wide'],['pf-storefront-window','Walk up to the window — this is where you order','b-tall']];
   const base='/images/gallery/';
   const bento=document.getElementById('bento'),lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg'),lbCap=document.getElementById('lbCap');
   let cur=0;
