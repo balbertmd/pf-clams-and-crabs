@@ -42,7 +42,9 @@ Sitemap: $new/sitemap.xml
 [System.IO.File]::WriteAllText((Join-Path $site 'public\robots.txt'), $robots, (New-Object System.Text.UTF8Encoding($false)))
 Write-Output "public\robots.txt written"
 
-# --- 4. astro.config site already = https://pfclamsandcrabs.com; report if it disagrees ---
+# --- 4. astro.config site should = https://pfclams.com; report if it disagrees ---
+#     (H10, 2026-08-01: this comment still named pfclamsandcrabs.com, a domain that was never
+#      bought. Wrong host names in an operational script are how a bad swap gets rubber-stamped.)
 $cfg = [System.IO.File]::ReadAllText((Join-Path $site 'astro.config.mjs'), [System.Text.Encoding]::UTF8)
 if ($cfg -notmatch [regex]::Escape($Domain)) {
   Write-Output ("WARNING: astro.config.mjs 'site' does not mention {0} - check it by hand" -f $Domain)
