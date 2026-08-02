@@ -127,8 +127,15 @@
      dressed before (or without) the video — no-JS, reduced-motion and slow-connection all land on the
      still. The clip fades in over it once it is actually playing. Source is 720x1280 vertical, which
      is why this reads best on a phone: object-fit:cover crops the sides on desktop, nothing on mobile. */
-  .story .pbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.1s ease}
+  /* object-fit:COVER cropped 9:16 footage into a wide band and cut the clams squirting out of frame.
+     CONTAIN keeps the whole frame, and a blurred copy of the same scene fills the sides so the
+     section still reads as a wallpaper rather than a video pasted on a page. */
+  .story .pbg .vblur{position:absolute;inset:-8%;background-size:cover;background-position:center;
+    filter:blur(28px) brightness(.55) saturate(.9);opacity:0;transition:opacity 1.1s ease}
+  .story .pbg .vblur.on{opacity:1}
+  .story .pbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity 1.1s ease}
   .story .pbg video.on{opacity:1}
+  @media(max-width:680px){.story .pbg video{object-fit:cover}}
   @media(prefers-reduced-motion:reduce){.story .pbg video{display:none}}
   .story .pscrim{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(6,20,29,.5),rgba(6,20,29,.74) 60%,rgba(6,20,29,.86))}
   .story .wrap{position:relative;z-index:2;text-align:center;padding:clamp(80px,12vw,160px) 24px;text-shadow:0 2px 18px rgba(0,0,0,.6)}
@@ -272,7 +279,7 @@
   </div>
 </div></section>
 
-<section class="story" id="paul"><div class="pbg" id="pbg" style="background-image:url('/images/dock/dock-12.jpg')"><video id="storyvid" muted loop playsinline preload="none" poster="/images/pf-rinse-poster.jpg" aria-hidden="true" tabindex="-1"><source src="/videos/pf-rinse-full.mp4" type="video/mp4"></video></div><div class="pscrim"></div>
+<section class="story" id="paul"><div class="pbg" id="pbg" style="background-image:url('/images/dock/dock-12.jpg')"><div class="vblur" id="storyblur" style="background-image:url('/images/pf-rinse-poster.jpg')"></div><video id="storyvid" muted loop playsinline preload="none" poster="/images/pf-rinse-poster.jpg" aria-hidden="true" tabindex="-1"><source src="/videos/pf-rinse-full.mp4" type="video/mp4"></video></div><div class="pscrim"></div>
   <div class="wrap reveal"><span class="eyebrow">The man on the dock</span>
     <blockquote>“Twenty years on these waters — straight from my dock to your table.”</blockquote>
     <cite>— Paul, PF Clams and Crabs</cite>
@@ -508,8 +515,9 @@ window.PF_REVIEWS_WIDGET_ID = "";
     if(noMo||lowData) return;
     new IntersectionObserver(function(es){
       es.forEach(function(e){
-        if(e.isIntersecting){ var p=sv.play(); if(p&&p.catch) p.catch(function(){}); sv.classList.add('on'); }
-        else { sv.pause(); sv.classList.remove('on'); }
+        var blur=document.getElementById('storyblur');
+        if(e.isIntersecting){ var p=sv.play(); if(p&&p.catch) p.catch(function(){}); sv.classList.add('on'); if(blur) blur.classList.add('on'); }
+        else { sv.pause(); sv.classList.remove('on'); if(blur) blur.classList.remove('on'); }
       });
     },{rootMargin:'200px 0px',threshold:.1}).observe(sv.closest('.story'));
   })();
