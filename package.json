@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/compress-heavy-images.mjs && astro build",
+    "build": "node scripts/check-jsonld.mjs && node scripts/compress-heavy-images.mjs && astro build && node scripts/check-logo-colortype.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

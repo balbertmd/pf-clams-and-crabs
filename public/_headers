@@ -33,3 +33,19 @@
 
 /videos/*
   Cache-Control: public, max-age=31536000, immutable
+
+# ── 2026-08-02 correction ─────────────────────────────────────────────────────
+# The assumption above — "their filenames are stable and they are never edited in
+# place" — is FALSE for the brand marks. logo.png was re-cut in place twice in one
+# day (palette -> RGB, then 512 -> 256). With `immutable`, different Cloudflare edge
+# nodes ended up serving DIFFERENT versions of the same URL: one returned the new
+# file within minutes, another was still serving the original PALETTE png hours
+# later. That produced a false "the fix shipped" reading.
+# Brand marks are exactly the files most likely to be re-cut, so they revalidate.
+# Gallery and dock photos genuinely never change — they keep the immutable rule above.
+# These come AFTER /images/* on purpose: later matching rules win.
+/images/logo*.png
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/images/brand/*
+  Cache-Control: public, max-age=3600, must-revalidate

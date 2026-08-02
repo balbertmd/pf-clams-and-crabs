@@ -17,8 +17,14 @@ const EXTS = new Set(['.jpg', '.jpeg', '.png']);
 // PNG as palette (mode P). That is the documented cause of the repeated Google Business Profile
 // logo rejections — the "flat RGB" file built to rule out colour mode was served as PALETTE,
 // so the hypothesis was never actually tested. See public/images/brand/BRAND-LOGO.md.
+// 2026-08-02: the C3 exemption listed DIRECTORIES only and missed the two brand marks sitting at
+// images/ root. logo.png was therefore still served as colorType 3 (PALETTE) — the same defect C3
+// was written to fix, on the very file the header, the favicon and the LocalBusiness JSON-LD all
+// point at. Exempt brand marks by exact path too, not just by folder.
 const EXEMPT = ['public/images/brand/', 'public/images/gbp/'];
-const isExempt = (f) => EXEMPT.some((d) => f.split('\\').join('/').startsWith(d));
+const EXEMPT_FILES = ['public/images/logo.png', 'public/images/logo-mark.png'];
+const norm = (f) => f.split('\\').join('/');
+const isExempt = (f) => EXEMPT.some((d) => norm(f).startsWith(d)) || EXEMPT_FILES.includes(norm(f));
 
 async function* walk(dir) {
   for (const e of await readdir(dir, { withFileTypes: true })) {
